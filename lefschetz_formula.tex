@@ -1,0 +1,271 @@
+\documentclass[english]{scrartcl}
+\usepackage{fontspec}
+\usepackage{babel}
+\usepackage[backend=biber]{biblatex}
+\bibliography{lefschetz_formula.bib}
+\usepackage{scrlayer-scrpage}
+\usepackage{mathtools, amssymb, amsthm, dsfont}
+\usepackage{enumitem}
+
+\usepackage{hyperref}
+\hypersetup{
+  pdfauthor=Gesina Schwalbe,
+  pdftitle=Lefschetz fixed-point formula
+}
+
+% THEOREMS
+\theoremstyle{definition}
+\newtheorem{Def}{Definition}[section]
+\newtheorem{Thm}[Def]{Theorem}
+\newtheorem{Lem}[Def]{Lemma}
+\theoremstyle{remark}
+\newtheorem{Rem}[Def]{Remark}
+\newtheorem{Rev}[Def]{Reminder}
+
+% SHORTENINGS
+\newcommand*{\N}{\mathds{N}}
+\newcommand*{\Z}{\mathds{Z}}
+\newcommand*{\Q}{\mathds{Q}}
+\newcommand*{\Zmod}[1]{\Z/#1} % Z/nZ
+\newcommand*{\Zl}{\Z_l} % l-adic completion of Z
+\newcommand*{\Ql}{\Q_l} % quotient field of \Zl
+\newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
+\newcommand*{\id}{\text{id}} % identity
+
+\newcommand*{\M}{\Lambda}
+% \M_l(r)(R) = {
+% for r=0 \ZlZ;
+% for r>0 \mu_l(R)^{\otimes r};
+% for r<0 Hom_{\Zmod{l}}(\mu_l(R)^{\otimes -r}, \Zmod{l}) } 
+\newcommand*{\tr}[1]{\text{tr}\left(#1\right)} % trace isomorphism
+\newcommand*{\intProd}[2]{#1\cdot#2} % intersec. product in the Chow ring
+\newcommand*{\intNum}[2]{\left\langle\intProd{#1}{#2}\right\rangle} % intersection number (= tr(intersection product))
+\newcommand*{\Graph}[1]{\Gamma_{#1}} % graph of a map
+\newcommand*{\Diag}[1]{\Delta_{#1}} % diagonal (both map and subscheme)
+\newcommand*{\trace}[2]{\text{trace}\left(#1 \,\middle|\, #2 \right)} % trace of map (#1) in vector space (#2)
+\newcommand*{\cl}[2]{\text{cl}_{#1}\left(#2\right)} % cycle class map
+\newcommand*{\one}[1]{1_{#1}}%{H^*(#1)}}
+\newcommand*{\dual}[2]{#1_{#2}^*} % dual basis vector
+\let\altphi\phi
+\renewcommand*{\phi}{\varphi}
+
+
+\begin{document}
+% HEAD/FOOT
+\clearpairofpagestyles
+\ohead{Universität Regensburg}
+\ihead{Gesina Schwalbe}
+\cfoot*{\pagemark}
+
+% TITLE
+\title{Poincaré Duality and\\
+  Lefschetz Fixed-Foint Formula}
+\subject{Seminar:
+  Deligne's proof of the Weil Conjecture%\\by Federico Binda, Prof. Dr. Moritz Kerz
+}
+%\subtitle{Lecture Notes}
+\author{Gesina Schwalbe}
+%\date{}
+\maketitle
+\tableofcontents
+
+\section{Motivation}
+
+\section{Preliminaries on étale Cohomology}
+% vanishing of cohomology in higher degrees
+
+\subsection{Étale Cohomology with compact support}
+\subsection{Ext-Pairings, Cup Product and Künneth formula}
+\subsection{The Chow Ring and the Cycle Map}
+
+\section{Poincaré Duality}
+\subsection{Trace Map}
+\subsection{Poincaré Duality}
+\subsection{Gysin Maps}
+
+\section{Lefschetz Fixed-Point Formula}
+
+\begin{Thm}[Lefschetz fixed-point formula]\label{lefschetzthm}
+  Let $X$ be a non-singular, complete variety over an algebraicly
+  closed field $k$.
+  Let further $\phi\colon X\to X$ be a regular Endomorphism.
+  Then
+  \begin{gather*}
+    \intNum{\Graph{\phi}}{\Diag{X}}
+    = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X,\Ql)}
+  \end{gather*}
+  where $\trace{\phi^*}{H^r(X,\Ql)}$ is the trace of $\phi^*$ as
+  Endomorphism of a $\Ql$-vector space. 
+  The sum is finite due to the vanishing
+  of cohomology in degree greater than $2\dim(X)$. 
+\end{Thm}
+Note that $\intNum{\Graph{\phi}}{\Diag{X}}$ is exactly the number of
+fixed points of $\phi$, hence the name of this formula.
+
+
+\subsection{Proof}
+\begin{Rem}
+  In the following we will work with
+  $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$, where
+  \begin{gather*}
+    H^r(X) = H^r(X,\Ql(r)) \coloneqq
+    \left(\lim_{n\to\infty} H^r(X,\M_{l^n}(r))\right) \otimes \Ql
+  \end{gather*}
+  All the maps and identities we have seen so far are compatible with
+  taking the limit and tensoring with $\Ql$, namely
+  cup product,
+  trace isomorphism,
+  Poincaré duality,
+  cycle class map and hence
+  pushforward and pullback on cohomology as well as
+  the Künneth isomorphism.
+  Thus $H^*(X)$ together with the induced cup product is a graded ring
+  fulfilling these properties.
+  For $X$, $\phi$ as above we will deduce the formula
+  \begin{gather*}
+    \intNum{\Graph{\phi}}{\Diag{X}}
+    = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X)}
+  \end{gather*}
+  This already implies the theorem
+  (i.e. $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$),
+  because:
+  Since $k$ is algebraicly closed---especially it contains all
+  roots of unity---we can choose for $r=1$ (hence inductively all
+  $r\in\N$) and $n\in\N$ an isomorphism
+  \begin{gather*}
+    \M_{l^n}(r)\coloneqq\mu_{l^n}^{\otimes_k r} \cong \Zmod{(l^n)}
+  \end{gather*}
+  So $H^r(X)\cong H^r(X,\Ql)$ as $\Ql$-vector spaces.
+  One now has to observe, that the traces of $\phi^*$ commute with
+  this isomorphism.
+  % TODO!!
+\end{Rem} 
+
+\begin{Rev}
+  Let $V$ be a finite dimensional $K$-vector space, $(e_i)_{i=1}^n$ a basis,
+  and $(\check e_i)_{i=1}^n$ the corresponding dual basis.
+  Denote the evaluation by
+  \begin{align*}
+    \cup\colon V\otimes V^* \to K,\quad
+    v\otimes \omega \mapsto v\cup\omega\coloneqq \omega(v)
+  \end{align*}
+  Then the trace of some $f\in\End(V)$ is defined as
+  \begin{gather*}
+    \trace{f}{V} \coloneqq \sum_{i=1}^n f(e_i)\cup \check e_i
+  \end{gather*}
+\end{Rev}
+
+\begin{proof}[proof of \autoref{lefschetzthm}]~
+  \begin{enumerate}[label={Step \arabic*.}]
+  \item %[25.3]
+    First we need the following identity:
+    \begin{Lem}\label{step1}
+      For a regular morphism $\phi\colon X\to Y$ of complete varieties
+      and $y\in H^*(Y)$ holds
+      \begin{gather*}
+        p_*\left(\cl{X\times Y}{\Graph{\phi}} \cup q^*(y)\right)
+        = \phi^*(y)           
+      \end{gather*}
+      \begin{proof}
+        Since $Y$ is separated, $\Graph{\phi}\colon X\to X\times_k Y$
+        is a closed immersion, hence proper, and we can apply the 
+        \nameref{projectionformula}. % REF MISSING
+        Furthermore, by functoriality of the cycle class map we have
+        \begin{gather}
+          \cl{X\times_k Y}{\Graph{\phi}} \coloneqq
+          \cl{X\times_k Y}{(\Graph{\phi})_*(X)} =
+          (\Graph{\phi})_*(\cl{X}{X}) \overset{\ref{ex:clxx}}{=} % REF MISSING          
+          (\Graph{\phi})_*\left(\one{X}\right)
+        \end{gather}
+        Altogether we get
+        \begin{align*}
+          p_*\left(\cl{X\times Y}{\Graph{\phi}} \cup q^*(y)\right)
+          &=  p_*\left(
+            (\Graph{\phi})_*\left(\one{X}\right) \cup q^*(y)
+            \right)\\
+          &\overset{\mathllap{\nameref{projectionformula}}}{=}
+            p_*(\Graph{\phi})_*\left( \one{X} \cup (\Graph{\phi})^*q^*(y) \right)\\
+          &= (p\circ\Graph{\phi})_* \left(
+            \one{X} \cup (q\circ\Graph{\phi})^*(y) \right)\\
+          &= \id_* \left( \one{X} \cup \phi^*(y) \right)\\
+          &= \phi^*(y)
+        \end{align*}
+      \end{proof}
+    \end{Lem}
+  \item Now we can explicitly describe
+    $\cl{X\times_k X}{\Graph{\phi}}$:
+    \begin{Lem}
+      Let $X$ be a complete and non-singular variety of dimension $d$
+      and $\altphi\in\End(X)$ regular.
+      Write $e^{2d}\in H^{2d}(X)$ for the canonical generator
+      with $\tr{e^{2d}}=1\in\Ql$.
+      Furthermore, let $(b_k)_k$ be a basis of $H^*(X)$ as
+      $\Ql$-vector space and $(f_k)_k$ be the dual Basis with respect
+      to the cup product, i.e. $b_k\cup f_l=\delta_{kl}e^{2d}$.
+      % ?? HOW IS THIS CONSTRUCTED? / WHY DOES THIS EXIST?
+      Then
+      \begin{gather*}
+        \cl{X\times_k X}{\Graph{\phi}} =
+        \sum_{k}^{2d} \phi^*(b_k)\otimes  f_k
+      \end{gather*}
+      \begin{proof}
+        By the \nameref{künnethiso} % REF MISSING
+        $H^*(X\otimes X) \cong H^*(X)\otimes_{\Ql}H^*(X)$ is a
+        $H^*(X)$-module with basis
+        $(\one{X}\otimes f_k)_{k}$.
+        Therefore, there are unique factors $a_{k}$ in $H^*(X)$ s.t.
+        \begin{gather}
+          \label{eq:step2}
+        \cl{X\times_k Y}{\Graph{\phi}} =
+        \sum_{k} a_k\otimes f_k
+      \end{gather}
+      Explicitly
+      \begin{align*}
+        a_j
+        = p_*(a_j\otimes e^{2d})
+        &= p_*\Big(
+          \sum_k(a_k\otimes f_k)\cup (\one{X}\otimes b_j)
+        \Big)\\
+        &\overset{\mathllap{\eqref{eq:step2}}}= p_*\left(
+          \cl{X\times_k X}{\Graph{\phi}} \cup q^*(b_j)
+          \right)\\
+        &\overset{\mathllap{\ref{step1}}}= \phi^*(b_j) 
+      \end{align*}
+      \end{proof}
+    \end{Lem}
+  \item
+  For all $r\in\{0,\dotsc,2d\}$ let
+  \begin{itemize}
+  \item $(e_i^r)_{i}$ be a basis of $H^r(X)$ as $\Ql$-vector space,
+  \item $(\check e_i^{2d-r})_{i}$ be the dual basis of $H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
+    i.e. $e^r_i\cup \check e_j^{2d-r}= \delta_{ij}e^{2d}$.
+  \end{itemize}
+  Note that then $e^r_i\cup \check e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$,
+  % ?? WHY?
+  i.e. they fulfill the properties of the Lemma
+  and we get for $\phi$ and $\id$
+  \begin{align*}
+    \cl{X\times_k X}{\Graph{\phi}}
+    &= \sum_{i,r} \phi^*(e_i^r)\otimes \check e_i^{2d-r}\\
+    \cl{X\times_k X}{\Diag{X}}
+    &= \sum_{i,r} e_i^r\otimes \check e_i^{2d-r} =
+      \sum_{i,r} (-1)^{r\cdot (2d-r)}\check e_i^r\otimes e_i^{2d-r} =
+      \sum_{i,r} (-1)^{r}\check e_i^{2d-r}\otimes e_i^r\\
+    \cl{X\times_k X}{\intProd{\Graph{\phi}}{\Diag{X}}}
+    &= \cl{X\times_k X}{\Diag{X}} \cup \cl{X\times_k X}{\Graph{\phi}}\\
+    &= \sum_{i,r,j,s} (-1)^{r}
+      \left(\phi^*(e_i^r)\cup \check e_j^{2d-s}\right)
+      \otimes \left(\check e_i^{2d-r}\cup e_j^s\right)\\
+    &= \sum_{i,r} (-1)^{r}
+      \left(\phi^*(e_i^r)\cup \check e_i^{2d-r}\right)
+      \otimes e^{2d}\\
+    &= \sum_{r} (-1)^r \trace{\phi^*}{H^r(X)} \otimes e^{2d}
+  \end{align*}
+\end{enumerate}
+\end{proof}
+
+\subsection{Other Cases}
+
+\nocite{*}
+\printbibliography
+\end{document}
