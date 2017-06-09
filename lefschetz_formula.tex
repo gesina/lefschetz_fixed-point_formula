@@ -6,6 +6,8 @@
 \usepackage{scrlayer-scrpage}
 \usepackage{mathtools, amssymb, amsthm, dsfont}
 \usepackage{enumitem}
+\setlist[description]{font=\normalfont\bfseries}
+\usepackage{tikz-cd}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -16,6 +18,7 @@
 % THEOREMS
 \theoremstyle{definition}
 \newtheorem{Def}{Definition}[section]
+\newtheorem{DefLem}[Def]{Definition/Lemma}
 \newtheorem{Thm}[Def]{Theorem}
 \newtheorem{Lem}[Def]{Lemma}
 \theoremstyle{remark}
@@ -28,12 +31,15 @@
 \newcommand*{\Q}{\mathds{Q}}
 \newcommand*{\R}{\mathds{R}}
 \newcommand*{\C}{\mathds{C}}
-\newcommand*{\F}{\mathds{F}}
+\newcommand*{\fF}{\mathds{F}} % finite field
 \newcommand*{\Zmod}[1]{\Z/#1} % Z/nZ
 \newcommand*{\Zl}{\Z_l} % l-adic completion of Z
 \newcommand*{\Ql}{\Q_l} % quotient field of \Zl
+\newcommand*{\F}{\mathcal{F}} % sheaf F
+\newcommand*{\G}{\mathcal{G}} % sheaf G
 \newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
 \newcommand*{\id}{\text{id}} % identity
+\DeclareMathOperator{\Sh}{Sh} % sheaves over a space
 \newcommand*{\idest}{i.e.\ }
 \newcommand*{\forexample}{e.g.\ }
 
@@ -54,6 +60,7 @@
 \let\altphi\phi
 \renewcommand*{\phi}{\varphi}
 \newcommand*{\Poincare}{{\text{Poincaré \ref{poincare}}}}
+\newcommand*{\Hc}{{H_c}} % cohomology with compact support
 
 \begin{document}
 % HEAD/FOOT
@@ -92,12 +99,13 @@ The proof uses the Poincaré duality theorem which says
 \begin{Thm}[Poincaré]
   For a smooth manifold $X$ holds for all $r\in\Z$
   \begin{gather*}
-    H_{c,\text{sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
+    H_{\text{c,sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
   \end{gather*}
-  where $H_{c,\text{sing}}(X,\Z)\coloneqq
-  \lim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)$
+  where $H_{\text{c,sing}}(X,\Z)\coloneqq
+  \lim_{Z\subset X \text{cpt.}}H_{Z,\text{sing}}^r(X,\Z)$
   is cohomology with compact support for $X$
-  (write $H_Z^r(X,\Z)$ for $r$th relative $\Z$-cohomology of the pair $(X,Z)$).
+  (write $H_{Z,\text{sing}}^r(X,\Z)$ for $r$th relative
+  $\Z$-cohomology of the pair $(X,Z)$).
 \end{Thm}
 The aim of this lecture is to introduce an analogue statement for
 schemes instead of topological spaces as well as give a proof and an
@@ -140,12 +148,12 @@ Thus the final statement of the Lefschetz fixed point formula shall be
 We instantly get the following two applications:
 \begin{description}
 \item[Zeta function] For
-  $k=\F_{q}$ a finite field ($q\in\N$),
+  $k=\fF_{q}$ a finite field ($q\in\N$),
   $X$ a non-singular variety over $k$ and
   $\phi=F^n$ the $n$th Frobenius homomorphism
   we get
   \begin{gather*}
-    \#X(\F_{q^n}) = \intNum{\intProd{\Graph\phi}{\Diag X}}
+    \#X(\fF_{q^n}) = \intNum{\intProd{\Graph\phi}{\Diag X}}
   \end{gather*}
   which is essential to further investigate the Zeta function of $X$.
 \item[Euler characteristic] Taking $k$ and $X$ as in the Theorem and
@@ -174,10 +182,88 @@ and most of all a cup product, \idest a graded ring structure
 All of this will be introduced in the following.
 
 \section{Preliminaries on étale Cohomology}
-% vanishing of cohomology in higher degrees
+It will be assumed the reader knows about the definition and basic
+properties of étale cohomology. If not stated otherwise, for a
+(Zariski) scheme $X$ and a (Zariski) sheaf of modules $\F$ over $X$ we
+denote with $H^r(X,\F)$ the $r$th étale cohomology group of the étale
+sheaf $\F$ over the étale scheme of $X$
+\cite[compare][Chap.~6, Examples of Sheaves on $X_\text{ét}$]{milne}.
+
+Also recall that for $\F$ torsion sheaf or $X$ complete these groups
+are finite \cite[\forexample][Thm.~19.1]{milne}.
 
 \subsection{Étale Cohomology with compact support}
+In this section let $k$ be an algebraically closed field,
+$U$ a variety over $k$,
+and $\F$ be a torsion sheaf over $U$.
+
+The definition of cohomology with compact support as
+$\left(\lim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)\right)$
+cannot be copied from topology but has to be adjusted.
+However, we will see later (namely \autoref{rem:cptvsrelcohomology}),
+that at least in degree 0 the following definition
+and the expression above coincide.
+
+First recall the following
+\begin{Rev}[Nagata compactification]\label{nagata}
+  There always exists a complete $k$-variety $X$ and an open, dense
+  immersion $j\colon U\to X$. $j$ is also called a
+  \emph{compactification} of $U$.
+\end{Rev}
+\begin{Rev}[Extension by zero]\label{def:extbyzero}
+  For an open immersion $j\colon U\to X$ into
+  a scheme $X$, $j_!$ (called the \emph{extension by zero} of $j$)
+  is defined as
+  \begin{gather*}
+    j_!\colon \Sh(U)\to \Sh(X)\;,\qquad
+    j_!\F \coloneqq \text{sheafification of}\quad
+    V\mapsto\begin{cases}
+      \F(V) & V\subset U\\
+      0     & \text{else}
+    \end{cases}
+  \end{gather*}
+\end{Rev}
+
+\begin{DefLem}\label{def:cptcohomology}
+  Let $j\colon U\to X$ be a compactification of $U$. Then the
+  cohomology with compact support in degree $r\in\Z$ is defined as
+  \begin{gather*}
+    \Hc^r(U,\F) \coloneqq H^r(X,j_!(\F))
+  \end{gather*}
+  This definition is independent of the choice of compactification.
+  \begin{proof}[proof (scetch)]
+    The set of compactifications of $U$ is partially ordered by proper
+    morphisms:
+    For two compactifications $j_1\colon U\to X_1$,
+    $j_2\colon U\to X_2$ the closure
+    $X\coloneqq\overline{(j_1,j_2)(U)}$ in $X_1\times_X X_2$ is again
+    a compactification and the projections on $X_1$, $X_2$ are proper.
+    Thus one only needs to check $\Hc^r(X,j_!\F)\cong\Hc^r(X',j_!'\F)$
+    for compactifications $j$, $j'$ and a proper map $\pi$ such that
+    the following diagramm commutes
+    \begin{center}
+      \begin{tikzcd}
+        U\arrow[r,"j"]\arrow[dr,"j'"{left}, bend right=20]
+        & X\arrow[d,"\pi"]\\
+        & X'
+      \end{tikzcd}
+    \end{center}
+    This then can be shown using a version of the Leray spectral
+    sequence and the proper base change theorem.
+  \end{proof}
+\end{DefLem}
+
+\begin{Rem}
+Note that this is no derived functor!
+However, since $j_!$ is exact for a compactification $j$ of $U$, we
+still get a long exact sequence of cohomology out of a short exact
+sequence of a short exact sequence of sheaves on $U$
+(just use the definition and the long exact sequence of cohomology for
+$H^*(X,\cdot)$).
+\end{Rem}
+
 \subsection{Ext-Pairings, Cup Product and Künneth formula}
+
 \subsection{The Chow Ring and the Cycle Map}
 
 \section{Poincaré Duality}
