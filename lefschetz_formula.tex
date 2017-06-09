@@ -19,6 +19,7 @@
 \theoremstyle{definition}
 \newtheorem{Def}{Definition}[section]
 \newtheorem{DefLem}[Def]{Definition/Lemma}
+\newtheorem{Prop}[Def]{Proposition}
 \newtheorem{Thm}[Def]{Theorem}
 \newtheorem{Lem}[Def]{Lemma}
 \theoremstyle{remark}
@@ -38,6 +39,8 @@
 \newcommand*{\F}{\mathcal{F}} % sheaf F
 \newcommand*{\G}{\mathcal{G}} % sheaf G
 \newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
+\DeclareMathOperator{\Ext}{Ext} % Ext functor
+\DeclareMathOperator{\Hom}{Hom} % Hom functor
 \newcommand*{\id}{\text{id}} % identity
 \DeclareMathOperator{\Sh}{Sh} % sheaves over a space
 \newcommand*{\idest}{i.e.\ }
@@ -263,6 +266,51 @@ $H^*(X,\cdot)$).
 \end{Rem}
 
 \subsection{Ext-Pairings, Cup Product and Künneth formula}
+The foundations of all further investigations now will be the graded
+ring structure on the sum of the cohomology groups in all degrees
+(with appropriate coefficients).
+We here give a general approach to the definition via Ext-groups,
+however there can be given more concrete descriptions using
+Čech-cohomology \cite[see][Chap.~10 and Chap.~22, Cup-products]{milne}
+or later using the Künneth isomorphism (see \autoref{kuennethiso},
+\autoref{rem:cupwithkuennethiso}).
+
+\begin{Rem}[Yoneda product]\label{yonedaproduct}
+  For an abelian category $\mathcal{A}$ with enough injectives and
+  any objects $A,B,C$ of $\mathcal{A}$, $r,s\in\N$ there exists a pairing
+  \begin{align*}
+    \Ext^r(A,B)\otimes\Ext^s(B,C) &\overset{\cup}{\longrightarrow}
+    \Ext^{r+s}(A,C)
+    % \intertext{which is induced by}
+    \\
+    \text{induced by}\qquad
+    \Hom(A,B)\otimes\Hom(B,c) &\longrightarrow \Hom(A,C)\;,\quad
+                                f\otimes g\mapsto f\circ g
+  \end{align*}
+  \begin{proof}[idea for construction]
+    The elements of an $r$th Ext-group can be described as extensions
+    (\idest sequences) of length $r$.
+    Define $\cup$ to be the concatenation of two such sequences. 
+  \end{proof}
+\end{Rem}
+
+\begin{Prop}[Cup product]\label{def:cupproduct}
+  For a variety $X$, and $\F,\G\in\Sh(X)$ get for all $r,s\in\Z$
+  \begin{gather*}
+    H^r(X,\G)\otimes H^r(X,\F) \overset{\cup}\longrightarrow
+    H^{r+s}(X,\F\otimes\G)
+  \end{gather*}
+  \begin{proof}[idea for construction]
+    This is exactly the Yoneda product in \autoref{yonedaproduct} with
+    respect to the following identities
+    \begin{align*}
+      H^r(X,\G)&=\Ext_X^r(\mathcal O_X,\G)\\
+      H^r(X,\F)&=\Ext_X^r(\mathcal O_X,\F)=\Ext_X^r(\G,\G\otimes\F)\\
+      H^r(X,\F\otimes\G)&=\Ext_X^r(\mathcal O_X,\G\otimes\F)
+    \end{align*}
+  \end{proof}
+
+\end{Prop}
 
 \subsection{The Chow Ring and the Cycle Map}
 
