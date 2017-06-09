@@ -28,11 +28,14 @@
 \newcommand*{\Q}{\mathds{Q}}
 \newcommand*{\R}{\mathds{R}}
 \newcommand*{\C}{\mathds{C}}
+\newcommand*{\F}{\mathds{F}}
 \newcommand*{\Zmod}[1]{\Z/#1} % Z/nZ
 \newcommand*{\Zl}{\Z_l} % l-adic completion of Z
 \newcommand*{\Ql}{\Q_l} % quotient field of \Zl
 \newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
 \newcommand*{\id}{\text{id}} % identity
+\newcommand*{\idest}{i.e.\ }
+\newcommand*{\forexample}{e.g.\ }
 
 \newcommand*{\M}{\Lambda}
 % \M_l(r)(R) = {
@@ -40,17 +43,17 @@
 % for r>0 \mu_l(R)^{\otimes r};
 % for r<0 Hom_{\Zmod{l}}(\mu_l(R)^{\otimes -r}, \Zmod{l}) } 
 \newcommand*{\tr}[1]{\text{tr}\left(#1\right)} % trace isomorphism
-\newcommand*{\intProd}[2]{#1\cdot#2} % intersec. product in the Chow ring
-\newcommand*{\intNum}[1]{\left\langle{#1}\right\rangle} % intersection number (= tr(intersection product))
-\newcommand*{\Graph}[1]{\Gamma_{#1}} % graph of a map
-\newcommand*{\Diag}[1]{\Delta_{#1}} % diagonal (both map and subscheme)
-\newcommand*{\trace}[2]{\text{trace}\left(#1 \,\middle|\, #2 \right)} % trace of map (#1) in vector space (#2)
-\newcommand*{\cl}[2]{\text{cl}_{#1}\left(#2\right)} % cycle class map
-\newcommand*{\one}[1]{1_{#1}}%{H^*(#1)}}
-\newcommand*{\dual}[2]{#1_{#2}^*} % dual basis vector
+\newcommand*{\intProd}[2]{{#1\cdot#2}} % intersec. product in the Chow ring
+\newcommand*{\intNum}[1]{{\left\langle{#1}\right\rangle}} % intersection number (= tr(intersection product))
+\newcommand*{\Graph}[1]{{\Gamma_{#1}}} % graph of a map
+\newcommand*{\Diag}[1]{{\Delta_{#1}}} % diagonal (both map and subscheme)
+\newcommand*{\trace}[2]{{\text{trace}\left(#1 \,\middle|\, #2 \right)}} % trace of map (#1) in vector space (#2)
+\newcommand*{\cl}[2]{{\text{cl}_{#1}\left(#2\right)}} % cycle class map
+\newcommand*{\one}[1]{{1_{#1}}}%{H^*(#1)}}
+\newcommand*{\dual}[2]{{#1_{#2}^*}} % dual basis vector
 \let\altphi\phi
 \renewcommand*{\phi}{\varphi}
-\newcommand*{\Poincare}{\text{Poincaré \ref{poincare}}}
+\newcommand*{\Poincare}{{\text{Poincaré \ref{poincare}}}}
 
 \begin{document}
 % HEAD/FOOT
@@ -103,7 +106,7 @@ Some convenient correspondences are
 \begin{itemize}
 \item an algebraically closed field $k$ instead of $\R$ as ground field,
 \item $k$-\emph{variety}
-  (i.e. separated, geometrically reduced scheme of finite type over $k$)
+  (\idest separated, geometrically reduced scheme of finite type over $k$)
   instead of \emph{$\R$-manifold}
 \item \emph{complete} instead of \emph{compact},
 \item \emph{non-singular} instead of \emph{smooth}
@@ -124,7 +127,7 @@ cohomology with coefficients in $\Ql$ as follows
   \left(\lim_{n\to\infty}H^r(X,\Zmod{l^n})\right)\otimes_{\Zl}\Ql
 \end{gather*}
 Thus the final statement of the Lefschetz fixed point formula shall be
-\begin{Thm}[Lefschetz]
+\begin{Thm}[Lefschetz]\label{lefschetzthm:motivation}
   Let $k$ be an algebraically closed field, $X$ a non-singular,
   complete $k$-variety, and let $\phi\colon X\to X$ be an
   endomorphism. Then
@@ -133,7 +136,28 @@ Thus the final statement of the Lefschetz fixed point formula shall be
     = \sum_{r\in\N}(-1)^r\trace{\phi^*}{H^r(X,\Ql)}
   \end{gather*}
 \end{Thm}
-For the proof some further nice properties of étale cohomology for
+
+We instantly get the following two applications:
+\begin{description}
+\item[Zeta function] For
+  $k=\F_{q}$ a finite field ($q\in\N$),
+  $X$ a non-singular variety over $k$ and
+  $\phi=F^n$ the $n$th Frobenius homomorphism
+  we get
+  \begin{gather*}
+    \#X(\F_{q^n}) = \intNum{\intProd{\Graph\phi}{\Diag X}}
+  \end{gather*}
+  which is essential to further investigate the Zeta function of $X$.
+\item[Euler characteristic] Taking $k$ and $X$ as in the Theorem and
+  $\phi=\Delta$ we see that the étale Euler characteristic of $X$ is
+  just its self-intersection number, \idest
+  \begin{gather*}
+    \intNum{\intProd{\Delta}{\Delta}} = \chi_{\text{ét}}(X)
+  \end{gather*}
+\end{description}
+
+For the proof of \ref{lefschetzthm:motivation}
+some further nice properties of étale cohomology for
 (nice) varieties will be needed, such as:
 a Künneth isomorphism (\autoref{kuennethiso}),
 a cycle class map that gives a connection to the Chow ring and
@@ -145,7 +169,7 @@ cohomology with compact support (\autoref{compactcoh}),
 relative cohomology (\autoref{relcoh}),
 long exact sequences of (compact) pairs (\autoref{LES}),
 Gysin sequences (\autoref{gysinsequ}),
-and most of all a cup product i.e. a graded ring structure
+and most of all a cup product, \idest a graded ring structure
 (\autoref{cupproduct}).
 All of this will be introduced in the following.
 
@@ -208,7 +232,7 @@ fixed points of $\phi$, hence the name of this formula.
     = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X)}
   \end{gather*}
   This already implies the theorem
-  (i.e. $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$),
+  (\idest $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$),
   because:
   Since $k$ is algebraicly closed---especially it contains all
   roots of unity---we can choose for $r=1$ (hence inductively all
@@ -284,7 +308,7 @@ fixed points of $\phi$, hence the name of this formula.
       with $\tr{e^{2d}}=1\in\Ql$.
       Furthermore, let $(b_k)_k$ be a basis of $H^*(X)$ as
       $\Ql$-vector space and $(f_k)_k$ be the dual Basis with respect
-      to the cup product, i.e. $b_k\cup f_l=\delta_{kl}e^{2d}$.
+      to the cup product, \idest $b_k\cup f_l=\delta_{kl}e^{2d}$.
       % ?? HOW IS THIS CONSTRUCTED? / WHY DOES THIS EXIST?
       Then
       \begin{gather*}
@@ -321,11 +345,11 @@ fixed points of $\phi$, hence the name of this formula.
   \begin{itemize}
   \item $(e_i^r)_{i}$ be a basis of $H^r(X)$ as $\Ql$-vector space,
   \item $(\check e_i^{2d-r})_{i}$ be the dual basis of $H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
-    i.e. $e^r_i\cup \check e_j^{2d-r}= \delta_{ij}e^{2d}$.
+    \idest $e^r_i\cup \check e_j^{2d-r}= \delta_{ij}e^{2d}$.
   \end{itemize}
   Note that then $e^r_i\cup \check e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$,
   % ?? WHY?
-  i.e. they fulfill the properties of the Lemma
+  \idest they fulfill the properties of the Lemma
   and we get for $\phi$ and $\id$
   \begin{align*}
     \cl{X\times_k X}{\Graph{\phi}}
