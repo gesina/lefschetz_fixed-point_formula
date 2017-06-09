@@ -26,6 +26,8 @@
 \newcommand*{\N}{\mathds{N}}
 \newcommand*{\Z}{\mathds{Z}}
 \newcommand*{\Q}{\mathds{Q}}
+\newcommand*{\R}{\mathds{R}}
+\newcommand*{\C}{\mathds{C}}
 \newcommand*{\Zmod}[1]{\Z/#1} % Z/nZ
 \newcommand*{\Zl}{\Z_l} % l-adic completion of Z
 \newcommand*{\Ql}{\Q_l} % quotient field of \Zl
@@ -39,7 +41,7 @@
 % for r<0 Hom_{\Zmod{l}}(\mu_l(R)^{\otimes -r}, \Zmod{l}) } 
 \newcommand*{\tr}[1]{\text{tr}\left(#1\right)} % trace isomorphism
 \newcommand*{\intProd}[2]{#1\cdot#2} % intersec. product in the Chow ring
-\newcommand*{\intNum}[2]{\left\langle\intProd{#1}{#2}\right\rangle} % intersection number (= tr(intersection product))
+\newcommand*{\intNum}[1]{\left\langle{#1}\right\rangle} % intersection number (= tr(intersection product))
 \newcommand*{\Graph}[1]{\Gamma_{#1}} % graph of a map
 \newcommand*{\Diag}[1]{\Delta_{#1}} % diagonal (both map and subscheme)
 \newcommand*{\trace}[2]{\text{trace}\left(#1 \,\middle|\, #2 \right)} % trace of map (#1) in vector space (#2)
@@ -48,7 +50,7 @@
 \newcommand*{\dual}[2]{#1_{#2}^*} % dual basis vector
 \let\altphi\phi
 \renewcommand*{\phi}{\varphi}
-
+\newcommand*{\Poincare}{\text{Poincaré \ref{poincare}}}
 
 \begin{document}
 % HEAD/FOOT
@@ -70,6 +72,82 @@
 \tableofcontents
 
 \section{Motivation}
+From topology the following theorem is known that relates the fixed
+points of a morphism (counted with multiplicity) with homology:
+\begin{Thm}[Lefschetz-Hopf]
+  Let $X$ be a compact, smooth manifold and
+  $\phi\colon X\to X$ a morphism. Then
+  \begin{gather*}
+    \sum_{x\in\operatorname{Fix}(\phi)} \operatorname{i}(\phi,x)
+    =\sum_{r\in\N}(-1)^r \trace{\phi^*}{H_\text{sing}^r(X,\Q)}\;,
+  \end{gather*}
+  where $\operatorname{Fix}(\phi)$ are the fixed points of $\phi$ and
+  $\mathrm i(\phi,x)$ is the multiplicity of a fixed point $x$ of $\phi$
+  in $X$.
+\end{Thm}
+The proof uses the Poincaré duality theorem which says
+\begin{Thm}[Poincaré]
+  For a smooth manifold $X$ holds for all $r\in\Z$
+  \begin{gather*}
+    H_{c,\text{sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
+  \end{gather*}
+  where $H_{c,\text{sing}}(X,\Z)\coloneqq
+  \lim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)$
+  is cohomology with compact support for $X$
+  (write $H_Z^r(X,\Z)$ for $r$th relative $\Z$-cohomology of the pair $(X,Z)$).
+\end{Thm}
+The aim of this lecture is to introduce an analogue statement for
+schemes instead of topological spaces as well as give a proof and an
+overview of the necessary preliminaries.
+Some convenient correspondences are
+\begin{itemize}
+\item an algebraically closed field $k$ instead of $\R$ as ground field,
+\item $k$-\emph{variety}
+  (i.e. separated, geometrically reduced scheme of finite type over $k$)
+  instead of \emph{$\R$-manifold}
+\item \emph{complete} instead of \emph{compact},
+\item \emph{non-singular} instead of \emph{smooth}
+\item \emph{morphism of varieties} instead of \emph{morphism of manifolds}
+\item \emph{étale cohomology} instead of \emph{singular homology}
+  (mind that they coincide for non-singular varieties over $\C$ and
+  finite coefficient group \cite[see][Thm.~21.1]{milne})
+\item intersection number $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$
+  (also counting fixed points of $\phi$ with multiplicity)
+  instead of $\sum_{x\in\operatorname{Fix}(\phi)}\mathrm{i}(\phi,\cdot)$.
+\end{itemize}
+We also need to consider modified coefficients since étale cohomology
+does not behave well for non-finite coefficient groups. However,
+passing to limits we can consider for $X$ (étale) scheme the étale
+cohomology with coefficients in $\Ql$ as follows
+\begin{gather*}
+  H^r(X,\Ql)\coloneqq
+  \left(\lim_{n\to\infty}H^r(X,\Zmod{l^n})\right)\otimes_{\Zl}\Ql
+\end{gather*}
+Thus the final statement of the Lefschetz fixed point formula shall be
+\begin{Thm}[Lefschetz]
+  Let $k$ be an algebraically closed field, $X$ a non-singular,
+  complete $k$-variety, and let $\phi\colon X\to X$ be an
+  endomorphism. Then
+  \begin{gather*}
+    \intNum{\intProd{\Graph{\phi}}{\Diag{X}}}
+    = \sum_{r\in\N}(-1)^r\trace{\phi^*}{H^r(X,\Ql)}
+  \end{gather*}
+\end{Thm}
+For the proof some further nice properties of étale cohomology for
+(nice) varieties will be needed, such as:
+a Künneth isomorphism (\autoref{kuennethiso}),
+a cycle class map that gives a connection to the Chow ring and
+intersection product (\autoref{cycleclassmap}),
+Poincaré duality with a trace map (\autoref{poincare}),
+as well as pushforwards on cohomology (\autoref{gysinmaps}).
+To establish these, one needs for étale cohomology the notion of
+cohomology with compact support (\autoref{compactcoh}),
+relative cohomology (\autoref{relcoh}),
+long exact sequences of (compact) pairs (\autoref{LES}),
+Gysin sequences (\autoref{gysinsequ}),
+and most of all a cup product i.e. a graded ring structure
+(\autoref{cupproduct}).
+All of this will be introduced in the following.
 
 \section{Preliminaries on étale Cohomology}
 % vanishing of cohomology in higher degrees
@@ -81,6 +159,9 @@
 \section{Poincaré Duality}
 \subsection{Trace Map}
 \subsection{Poincaré Duality}
+\begin{Thm}[Poincaré]
+  
+\end{Thm}
 \subsection{Gysin Maps}
 
 \section{Lefschetz Fixed-Point Formula}
@@ -91,7 +172,7 @@
   Let further $\phi\colon X\to X$ be a regular Endomorphism.
   Then
   \begin{gather*}
-    \intNum{\Graph{\phi}}{\Diag{X}}
+    \intNum{\intProd{\Graph{\phi}}{\Diag{X}}}
     = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X,\Ql)}
   \end{gather*}
   where $\trace{\phi^*}{H^r(X,\Ql)}$ is the trace of $\phi^*$ as
@@ -99,7 +180,7 @@
   The sum is finite due to the vanishing
   of cohomology in degree greater than $2\dim(X)$. 
 \end{Thm}
-Note that $\intNum{\Graph{\phi}}{\Diag{X}}$ is exactly the number of
+Note that $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$ is exactly the number of
 fixed points of $\phi$, hence the name of this formula.
 
 
@@ -123,7 +204,7 @@ fixed points of $\phi$, hence the name of this formula.
   fulfilling these properties.
   For $X$, $\phi$ as above we will deduce the formula
   \begin{gather*}
-    \intNum{\Graph{\phi}}{\Diag{X}}
+    \intNum{\intProd{\Graph{\phi}}{\Diag{X}}}
     = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X)}
   \end{gather*}
   This already implies the theorem
@@ -183,11 +264,13 @@ fixed points of $\phi$, hence the name of this formula.
           &=  p_*\left(
             (\Graph{\phi})_*\left(\one{X}\right) \cup q^*(y)
             \right)\\
-          &\overset{\mathllap{\nameref{projectionformula}}}{=}
+          &\overset{\mathllap{\nameref{pushforward:projectionformula}}}{=}
             p_*(\Graph{\phi})_*\left( \one{X} \cup (\Graph{\phi})^*q^*(y) \right)\\
-          &= (p\circ\Graph{\phi})_* \left(
+          &\overset{\mathllap{\eqref{pushforward:composition}}}=
+            (p\circ\Graph{\phi})_* \left(
             \one{X} \cup (q\circ\Graph{\phi})^*(y) \right)\\
-          &= \id_* \left( \one{X} \cup \phi^*(y) \right)\\
+          &\overset{\mathllap{\text{Def. $\Graph\phi$}}}=
+            \id_* \left( \one{X} \cup \phi^*(y) \right)\\
           &= \phi^*(y)
         \end{align*}
       \end{proof}
@@ -259,8 +342,28 @@ fixed points of $\phi$, hence the name of this formula.
     &= \sum_{i,r} (-1)^{r}
       \left(\phi^*(e_i^r)\cup \check e_i^{2d-r}\right)
       \otimes e^{2d}\\
-    &= \sum_{r} (-1)^r \trace{\phi^*}{H^r(X)} \otimes e^{2d}
+    &\overset{\mathllap{\Poincare}}=
+      \sum_{r} (-1)^r \trace{\phi^*}{H^r(X)} e^{2d} \otimes e^{2d}
   \end{align*}
+  Altogether, using
+  \begin{align*}
+    \tr{e^{2d} \otimes e^{2d}}
+    % TODO!! ??
+    % &= \tr{p^*(e^{2d})\cup q^*(e^{2d})}\\
+    % &= \tr{p^*(e^{2d})}\cdot\tr{ q^*(e^{2d})}\\
+    % &\overset{\eqref{pushforward:trace}=
+    %   \tr{e^{2d}}\cdot\tr{e^{2d}}\\
+    %   \overset{\text{Def.}}= 1\cdot 1
+    = \tr{\Diag{X}_*(e^{2d})}
+    \overset{\eqref{pushforward:trace}}= \tr{e^{2d}}
+    \overset{\text{Def.}}= 1\in\Ql
+  \end{align*}
+  we get our final result:
+  \begin{gather*}
+    \intNum{\intProd{\Graph\phi}{\Diag X}} \coloneqq
+    \tr{\cl{X\times_kX}{\intProd{\Graph\phi}{\Diag X}}}
+    = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X,\Ql)}
+  \end{gather*}
 \end{enumerate}
 \end{proof}
 
