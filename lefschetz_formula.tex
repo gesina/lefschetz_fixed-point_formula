@@ -7,6 +7,7 @@
 \usepackage{mathtools, amssymb, amsthm, dsfont}
 \usepackage{enumitem}
 \setlist[description]{font=\normalfont\bfseries}
+\setlist[enumerate]{label=(\arabic*)}
 \usepackage{tikz-cd}
 
 \usepackage{hyperref}
@@ -38,6 +39,7 @@
 \newcommand*{\Ql}{\Q_l} % quotient field of \Zl
 \newcommand*{\F}{\mathcal{F}} % sheaf F
 \newcommand*{\G}{\mathcal{G}} % sheaf G
+\DeclareMathOperator{\Char}{char} % characteristic of a field
 \newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
 \DeclareMathOperator{\Ext}{Ext} % Ext functor
 \DeclareMathOperator{\Hom}{Hom} % Hom functor
@@ -266,14 +268,18 @@ $H^*(X,\cdot)$).
 \end{Rem}
 
 \subsection{Ext-Pairings, Cup Product and Künneth formula}
-The foundations of all further investigations now will be the graded
+Again let $k$ be an algebraically closed field throughout the
+section.
+
+The foundation of all further investigations will be the graded
 ring structure on the sum of the cohomology groups in all degrees
-(with appropriate coefficients).
-We here give a general approach to the definition via Ext-groups,
-however there can be given more concrete descriptions using
-Čech-cohomology \cite[see][Chap.~10 and Chap.~22, Cup-products]{milne}
-or later using the Künneth isomorphism (see \autoref{kuennethiso},
-\autoref{rem:cupwithkuennethiso}).
+(with appropriate coefficients). The product will be a cup product
+denoted $\cup$ to which we here give an approach via pairings of
+Ext-groups. 
+However, there are concrete descriptions using Čech-cohomology
+\cite[see][Chap.~10 and Chap.~22, Cup-products]{milne}
+or using the Künneth isomorphism defined later on (see
+\autoref{kuennethiso}, \autoref{rem:cupwithkuennethiso}).
 
 \begin{Rem}[Yoneda product]\label{yonedaproduct}
   For an abelian category $\mathcal{A}$ with enough injectives and
@@ -284,7 +290,7 @@ or later using the Künneth isomorphism (see \autoref{kuennethiso},
     % \intertext{which is induced by}
     \\
     \text{induced by}\qquad
-    \Hom(A,B)\otimes\Hom(B,c) &\longrightarrow \Hom(A,C)\;,\quad
+    \Hom(A,B)\otimes\Hom(B,C) &\longrightarrow \Hom(A,C)\;,\quad
                                 f\otimes g\mapsto f\circ g
   \end{align*}
   \begin{proof}[idea for construction]
@@ -295,22 +301,116 @@ or later using the Künneth isomorphism (see \autoref{kuennethiso},
 \end{Rem}
 
 \begin{Prop}[Cup product]\label{def:cupproduct}
-  For a variety $X$, and $\F,\G\in\Sh(X)$ get for all $r,s\in\Z$
+  For a $k$-variety $X$, and $\F,\G\in\Sh(X)$ get for all $r,s\in\Z$
+  natural pairings
   \begin{gather*}
     H^r(X,\G)\otimes H^r(X,\F) \overset{\cup}\longrightarrow
     H^{r+s}(X,\F\otimes\G)
   \end{gather*}
+  This is associative as well as graded commutative, \idest $x\cup y =
+  (-1)^{rs}y\cup x$ for $x\in H^r(X,\F)$, $y\in H^s(X,\G$
+  \cite[][Rem. 1.18]{milnebook}.
   \begin{proof}[idea for construction]
-    This is exactly the Yoneda product in \autoref{yonedaproduct} with
-    respect to the following identities
-    \begin{align*}
-      H^r(X,\G)&=\Ext_X^r(\mathcal O_X,\G)\\
-      H^r(X,\F)&=\Ext_X^r(\mathcal O_X,\F)=\Ext_X^r(\G,\G\otimes\F)\\
-      H^r(X,\F\otimes\G)&=\Ext_X^r(\mathcal O_X,\G\otimes\F)
-    \end{align*}
+    The cup product is the map making the following diagram commute
+    where the lower row is the \nameref{yonedaproduct}
+    \begin{center}
+      \begin{tikzcd}[column sep=tiny]
+        H^r(X,\F) \arrow[r, phantom, "\otimes"{description}] \arrow[d, equals]&
+        H^r(X,\G) \arrow[r] \arrow[d]
+        & H^{r+s}(X,\F\otimes\G) \arrow[d,equals]\\
+        \Ext_X^r(\mathcal O_X,\F) \arrow[r, phantom, "\otimes"{description}]&
+        \Ext_X^s(\F,\F\otimes\G) \arrow[r]
+        & \Ext_X^{r+s}(\mathcal O_X,\F\otimes\G)
+      \end{tikzcd}
+    \end{center}
+    This already implies associativity (compare the construction of the
+    Yoneda product in \ref{yonedaproduct}).
+    
+    There is also a more general approach to define cup products for
+    derived functors. This states, that for any right exact functor
+    $\Gamma\colon \Sh(X)\to\text{AbGrp}$ fulfilling certain nice
+    properties, a bifunctor
+    $\Gamma(\F)\otimes\Gamma(\G)\to\Gamma(\F\otimes\G)$
+    extends to a cup product pairing
+    \begin{gather*}
+      \operatorname{R}^r\Gamma(\F)\otimes
+      \operatorname{R}^s\Gamma(\G) \to
+      \operatorname{R}^{r+s}\Gamma(\F\otimes\G)
+    \end{gather*}
+    \cite[see][Prop. V.1.16]{milnebook}
   \end{proof}
-
 \end{Prop}
+
+We can now proceed with the definition of the graded ring of
+cohomology groups by choosing appropriate coefficients.
+\begin{Def}\label{def:coefficients}
+  Let $X$ be a $k$-variety,
+  $n\in\N$ such that $\Char(k)\nmid n$,
+  and $r\in\Z$.
+  \begin{enumerate}
+  \item Let $\Lambda\coloneqq\Lambda_n$ be the constant sheaf of
+    $\Zmod{n}$ over $X$.
+  \item For an integral domain $R$ let
+    $\mu_n(R)\coloneqq\{ u\in R^\times\;|\;u^n=1_R\}$ be the $n$th
+    roots of unity in $R$. Define
+    \begin{align*}
+      \SwapAboveDisplaySkip
+      \mu_n(R)^{\otimes r} &\coloneqq \begin{cases}
+        \mu_n(R)^{\otimes r} &r>0\\
+        \Zmod{n} &r=0\\
+        \Hom_{\Zmod{n}}(\mu_n(R)^{\otimes (-r)},\Zmod{n}) &r<0
+      \end{cases}
+    \end{align*}
+    Note that if $R$ contains all $n$th roots of unity, then a
+    primitive $n$th root of unity determines isomorphisms
+    $\mu_n(R)^{\otimes s}\cong\Zmod{n}$ for all $s\in\Z$.
+  \item We define the $r$th twist of $\Lambda$ as
+    \begin{gather*}
+      \Lambda(r) \coloneqq \text{ sheafification of }\quad
+      U\mapsto \mu_n(\Gamma(U,\mathcal O_U)^{\otimes r}
+    \end{gather*}
+    As explained above, for $k$ algebraically closed $\Lambda(r)$ is
+    (non-canonically) isomorphic to $\Lambda$.
+    However, choosing a primitive $n$th root of unity determines
+    isomorphisms $\Lambda\cong\Lambda(s)$ for all $s\in\Z$ and
+    $\Lambda(r)^\vee\coloneqq \Hom_\Lambda(\Lambda(r),\Lambda)
+    \cong\Lambda(-r)$.
+  \item For an $n$-torsion sheaf over $X$ (\idest a $\Lambda$-module)
+    set
+    \begin{align*}
+      \F(r) &\coloneqq \F\otimes_\Lambda \Lambda(r)\\
+      \F(r)^\vee &\coloneqq \Hom_\Lambda(\F,\Lambda(r))\cong \F(-r)
+    \end{align*}
+  \end{enumerate}
+\end{Def}
+
+One may notice an analogue of twisting sheaves in sheaf cohomology,
+where $\mathcal O_X$-modules are considered.
+
+With the coefficients defined above we can now state the ring
+structure
+as follows:
+\begin{DefLem}
+  For a $k$-variety $X$, and $n\in\Z$ such that $\Char(k)\nmid n$
+  define for $r\in\Z$
+  \begin{align*}
+    H^r(X) \coloneqq H^r(X,\Lambda(r))\;,\qquad
+    H^*(X) \coloneqq \bigoplus_{r\in\N}H^r(X)
+  \end{align*}
+  \begin{enumerate}
+  \item $H^*(X)$ together with the cup product as in \ref{def:cupproduct}
+    $H^*(X)\otimes H^*(X)\xrightarrow{\cup} H^*(X)$
+    is a graded commutative ring
+    (follows directly from the properties of the cup product).
+  \item The canonical isomorphism $\Zmod{n}\cong H^0(X)$ makes
+    $H^*(X)$ an $\Zmod{n}$-Algebra with unit $1_X$,
+    which is the image of $1_{\Zmod{n}}$ under the isomorphism.
+  \item For any morphism of $k$-varieties $\phi\colon X\to Y$ the
+    induced map $\phi^*\colon H^*(Y)\to H^*(X)$ is a homomorphism of
+    graded rings
+    (follows from the naturality of the cup product).
+  \end{enumerate}
+\end{DefLem}
 
 \subsection{The Chow Ring and the Cycle Map}
 
