@@ -23,6 +23,7 @@
 \newtheorem{Prop}[Def]{Proposition}
 \newtheorem{Thm}[Def]{Theorem}
 \newtheorem{Lem}[Def]{Lemma}
+\newtheorem{Cor}[Def]{Corollary}
 \theoremstyle{remark}
 \newtheorem{Rem}[Def]{Remark}
 \newtheorem{Rev}[Def]{Reminder}
@@ -41,6 +42,7 @@
 \newcommand*{\G}{\mathcal{G}} % sheaf G
 \DeclareMathOperator{\Char}{char} % characteristic of a field
 \DeclareMathOperator{\codim}{codim} % codimension
+\DeclareMathOperator*{\dirlim}{dirlim} % direct limit
 \newcommand*{\End}[1]{\text{End}(#1)} % Endomorphisms
 \DeclareMathOperator{\Ext}{Ext} % Ext functor
 \DeclareMathOperator{\Tor}{Tor} % Tor functor
@@ -49,13 +51,15 @@
 \DeclareMathOperator{\Sh}{Sh} % sheaves over a space
 \newcommand*{\idest}{i.e.\ }
 \newcommand*{\forexample}{e.g.\ }
+\newcommand*{\argreplacement}{\,\cdot\,} % argument replacement for functors/functions
 
 \newcommand*{\M}{\Lambda}
 % \M_l(r)(R) = {
 % for r=0 \ZlZ;
 % for r>0 \mu_l(R)^{\otimes r};
-% for r<0 Hom_{\Zmod{l}}(\mu_l(R)^{\otimes -r}, \Zmod{l}) } 
-\newcommand*{\tr}[1]{\text{tr}\left(#1\right)} % trace isomorphism
+% for r<0 Hom_{\Zmod{l}}(\mu_l(R)^{\otimes -r}, \Zmod{l}) }
+\newcommand*{\Tr}{\text{tr}} % trace isomorphism
+\newcommand*{\tr}[1]{\Tr\left(#1\right)} % trace isomorphism
 \newcommand*{\intProd}[2]{{#1\cdot#2}} % intersec. product in the Chow ring
 \newcommand*{\intNum}[1]{{\left\langle{#1}\right\rangle}} % intersection number (= tr(intersection product))
 \newcommand*{\Graph}[1]{{\Gamma_{#1}}} % graph of a map
@@ -64,7 +68,8 @@
 \DeclareMathOperator{\CH}{CH} % Chow group functor
 \DeclareMathOperator{\Div}{Div} % Divisor group
 \DeclareMathOperator{\Pic}{Pic} % Picard group
-\newcommand*{\cl}[2]{{\text{cl}_{#1}\left(#2\right)}} % cycle class map
+\DeclareMathOperator{\CL}{cl} % cycle class map
+\newcommand*{\cl}[2]{{\CL_{#1}\left(#2\right)}} % cycle class map
 \newcommand*{\one}[1]{{1_{#1}}}%{H^*(#1)}}
 \newcommand*{\dual}[2]{{#1_{#2}^*}} % dual basis vector
 \let\altphi\phi
@@ -107,39 +112,43 @@ points of a morphism (counted with multiplicity) with homology:
 \end{Thm}
 The proof uses the Poincaré duality theorem which says
 \begin{Thm}[Poincaré]
-  For a smooth manifold $X$ holds for all $r\in\Z$
+  For a smooth manifold $X$ and $r\in\Z$ holds
   \begin{gather*}
-    H_{\text{c,sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
+    H_{c\text{,sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
   \end{gather*}
-  where $H_{\text{c,sing}}(X,\Z)\coloneqq
-  \lim_{Z\subset X \text{cpt.}}H_{Z,\text{sing}}^r(X,\Z)$
-  is cohomology with compact support for $X$
-  (write $H_{Z,\text{sing}}^r(X,\Z)$ for $r$th relative
-  $\Z$-cohomology of the pair $(X,Z)$).
+  where $H_{c\text{,sing}}^r(X,\Z)\coloneqq
+  \dirlim_{Z\subset X \text{cpt.}}H_{Z,\text{sing}}^r(X,\Z)$
+  is cohomology with compact support for $X$.
+  Here, $H_{Z,\text{sing}}^r(X,\Z)$ is the $r$th relative
+  $\Z$-cohomology of the pair $(X,X\setminus Z)$.
 \end{Thm}
-The aim of this lecture is to introduce an analogue statement for
-schemes instead of topological spaces as well as give a proof and an
-overview of the necessary preliminaries.
+The aim of this lecture is to introduce and proof an analogue
+statement of the Lefschetz formula for schemes instead of topological
+spaces, as well as to give an overview of the necessary preliminaries.
 Some convenient correspondences are
 \begin{itemize}
 \item an algebraically closed field $k$ instead of $\R$ as ground field,
 \item $k$-\emph{variety}
   (\idest separated, geometrically reduced scheme of finite type over $k$)
-  instead of \emph{$\R$-manifold}
+  instead of \emph{$\R$-manifold},
 \item \emph{complete} instead of \emph{compact},
-\item \emph{non-singular} instead of \emph{smooth}
-\item \emph{morphism of varieties} instead of \emph{morphism of manifolds}
+\item \emph{non-singular} instead of \emph{smooth},
+\item \emph{morphism of varieties} instead of \emph{morphism of manifolds},
 \item \emph{étale cohomology} instead of \emph{singular homology}
   (mind that they coincide for non-singular varieties over $\C$ and
-  finite coefficient group \cite[see][Thm.~21.1]{milne})
+  finite coefficient group \cite[see][Thm.~21.1]{milne}),
+\item \emph{constant sheaf with value $G$}
+  as coefficients instead of an abelian group $G$
+  (written $G\in\Sh(X)$ where
+  $\Sh(X)$ are the sheaves of abelian groups over $X$)
 \item intersection number $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$
   (also counting fixed points of $\phi$ with multiplicity)
   instead of $\sum_{x\in\operatorname{Fix}(\phi)}\mathrm{i}(\phi,\cdot)$.
 \end{itemize}
 We also need to consider modified coefficients since étale cohomology
-does not behave well for non-finite coefficient groups. However,
-passing to limits we can consider for $X$ (étale) scheme the étale
-cohomology with coefficients in $\Ql$ as follows
+does not behave well for constant coefficient sheaves of non-finite
+abelian groups. However, passing to limits we can consider for $X$
+(étale) scheme the étale cohomology with coefficients in $\Ql$ as follows
 \begin{gather*}
   H^r(X,\Ql)\coloneqq
   \left(\lim_{n\to\infty}H^r(X,\Zmod{l^n})\right)\otimes_{\Zl}\Ql
@@ -183,7 +192,7 @@ intersection product (\autoref{cycleclassmap}),
 Poincaré duality with a trace map (\autoref{poincare}),
 as well as pushforwards on cohomology (\autoref{gysinmaps}).
 To establish these, one needs for étale cohomology the notion of
-cohomology with compact support (\autoref{compactcoh}),
+cohomology with compact support (\autoref{def:cptcohomology}),
 relative cohomology (\autoref{relcoh}),
 long exact sequences of (compact) pairs (\autoref{LES}),
 Gysin sequences (\autoref{gysinsequ}),
@@ -208,9 +217,9 @@ $U$ a variety over $k$,
 and $\F$ be a torsion sheaf over $U$.
 
 The definition of cohomology with compact support as
-$\left(\lim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)\right)$
+$\left(\dirlim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)\right)$
 cannot be copied from topology but has to be adjusted.
-However, we will see later (namely \autoref{rem:cptvsrelcohomology}),
+However, we will see later (namely \autoref{def:etapoint}),
 that at least in degree 0 the following definition
 and the expression above coincide.
 
@@ -494,7 +503,9 @@ identify it as the product in the so-called Chow ring. Afterwards we
 state the connection between the cohomology and the Chow ring in form
 of a natural, graded ring homomorphism.
 
-$k$ is still considered to be an algebraically closed field.
+$k$ is still considered to be an algebraically closed field,
+$n\in\Z$ an integer such that $\Char(k)\nmid n$,
+and $\Lambda=\Lambda_n$ as above.
 
 \begin{DefLem}
   Let $X$ be a non-singular variety.
@@ -548,14 +559,162 @@ $k$ is still considered to be an algebraically closed field.
   \end{enumerate}
 \end{DefLem}
 
+As mentioned above, our next goal is a natural homomorphism of graded rings
+\begin{gather*}
+  \CL_X\colon \CH^*(X)\rightarrow H^*(X)
+\end{gather*}
+For its definition we first need to introduce another identification
+of cohomology groups involving relative cohomology.
+
+\begin{Def}\label{def:relcoh}
+  Let $X$ be a $k$-variety and $Z\subset X$ a closed subvariety.
+  We define a functor
+  \begin{align*}
+    \Gamma_Z(X,\argreplacement) \colon \Sh(X) &\rightarrow \text{AbGrp}\\
+    \F &\longmapsto \ker\left(\Gamma(X,\F)\to \Gamma(X\setminus S,\F)\right)
+  \end{align*}
+  For $r\in\Z$ we call the $r$th right derivative of
+  $\Gamma_Z(X,\argreplacement)$ the $r$th relative étale cohomology of the pair
+  $(X,Z)$ and write
+  $H_Z^r(X,\F)\coloneqq\left(\mathrm R^r\Gamma_Z(X,\argreplacement)\right)(\F)$.
+\end{Def}
+One may compare this with relative singular cohomology $H_Z^r(X,F)=H^r(X,U,F)$
+of a pair $(X,U=X\setminus Z)$ of topological spaces with coefficients
+in an abelian group $F$. Here one obtains for any pair of topological
+spaces a long exact sequence involving relative cohomology.
+Even though we are limited to special pairs of varieties for relative
+étale topology, it also yields this desirable property:
+\begin{Prop}\label{lesrelcoh}
+  For a $k$-variety $X$ and a closed subvariety $Z$ of $X$,
+  $\F\in\Sh(X)$ there is a long exact sequence of cohomology
+  \begin{gather*}
+    \dotsc
+    \to H_Z^r(X,\F)
+    \to H^r(X,\F)
+    \to H^r(X\setminus Z,\F)
+    \to H_Z^{r+1}(X,\F)
+    \to \dotsc
+  \end{gather*}
+\end{Prop}
+There hold even more analogues to the Eilenberg-Steenrod Axioms,
+\forexample excision and additivity \cite[compare][Chap.~9]{milne}.
+
+We will further need the following correspondence between compact and
+relative cohomology, which yields---inserted into the long exact
+sequence from above---an analogue to the Gysin sequence of a of a
+vector bundle in topology.
+\begin{Thm}[Gysin isomorphism]\label{gysiniso}
+  Let $X$ be a non-singular $k$-variety,
+  $Z\subset X$ a closed, non-singular subvariety of codimension $c$,
+  and $\F\in\Sh(X)$ a locally constant $\Zmod{n}$-module.
+  Then there is a canonical and natural isomorphism
+  \begin{gather*}
+    H^{r-2c}\left(Z,\F(-c)\right)
+    \xrightarrow{\cong}
+    H_Z^r\left(X,\F\right)
+  \end{gather*}
+\end{Thm}
+Mind that we will need non-singularity in the following to apply this
+isomorphism.
+
+\begin{DefLem}\label{cycleclassmap}
+  Let $X$ be a non-singular $k$-variety.
+  Then there exists a unique, natural (in both space and coefficients)
+  homomorphism of graded rings doubling degree
+  \begin{gather*}
+    \CL_X\colon \CH^*(X)\rightarrow H^{2*}(X)\coloneqq
+    \bigoplus_{r\in\N} H^{2r}(X,\Lambda(r))
+  \end{gather*}
+  that fulfills
+  \begin{enumerate}
+  \item In degree~1 it is the map
+    \begin{gather*}
+      \CL_X^1\colon
+      \CH^1(X)\cong \Pic(X)\cong H^1(X,\mathds G_m)
+      \xrightarrow{\footnotesize\substack{\text{Kummer}\\\text{sequence}}}
+      H^2(X,\mu_n)
+      \overset{\text{Def.}}{\underset{\ref{def:coefficients}}{=}}
+      H^2(X,\Lambda(1))
+    \end{gather*}
+  \item For $Z\in\CH^r(X)$ non-singular, $\CL_X^r(Z)$ is the image of
+    $1_{\Zmod{n}}$ under the map
+    \begin{gather*}
+      \Zmod{n} \cong H^0(Z,\Lambda)
+      \xrightarrow[\text{\ref{gysiniso}}]{\cong}
+      H_Z^{2r}(X,\Lambda(r))
+      \xrightarrow[\text{\ref{lesrelcoh}}]{\text{l.e.s.}}
+      H^{2r}(X,\Lambda(r))
+    \end{gather*}
+  \end{enumerate}
+\end{DefLem}
 
 
 \section{Poincaré Duality}
-\subsection{Trace Map}
-\subsection{Poincaré Duality}
-\begin{Thm}[Poincaré]
-  
+In this whole section $k$ will be an algebraically closed field,
+$n\in\Z$ an integer such that $\Char(k)\nmid n$,
+and $\Lambda=\Lambda_n$ as in \ref{def:coefficients}.
+
+Remember that in topology, singular cohomology with compact support is
+defined as a limit of relative cohomologies by
+$H_{\text{c,sing}}(X,\Z)\coloneqq
+\dirlim_{Z\subset X \text{cpt.}}H_{Z,\text{sing}}^r(X,\Z)$.
+Unfortunately our definition in \ref{def:cptcohomology} had to differ from
+this approach as it does not behave well for étale cohomology.
+However, we can still recover the following relation:
+\begin{DefLem}\label{def:etapoint}
+  Let $X$ be a $k$-variety of dimension $d$ and $Z\subset X$ this time
+  a complete subvariety. For any torsion sheaf $\F\in\Sh(X)$ and
+  $r\in\Z$ we get canonical maps
+  \begin{gather*}
+    H_Z^r(X,\F)\xrightarrow{\cong} H_c^r(X,\F)
+  \end{gather*}
+  In degree~0 this yields an isomorphism
+  \begin{gather*}
+    \dirlim_{\mathclap{Z\subset X \text{cpt.}}} H_Z^0(X,\F) 
+    \xrightarrow{\cong} H_c^0(X,\F)\;.
+  \end{gather*}
+  For a closed point $P\in X$ we define $\eta_P$ to be the image of
+  $1_\Zmod{n}$ under the map
+  \begin{gather*}
+    \Zmod{n}
+    \cong H^0(P,\Lambda)
+    \xrightarrow[\text{\ref{gysiniso}}]{\cong}
+    H_{\{P\}}^{2d}(X,\Lambda(d))
+    \longrightarrow H_c^{2d}(X,\Lambda(d))
+  \end{gather*}
+\end{DefLem}
+
+Now we can state an analogue to Poincaré duality for étale cohomology:
+\begin{Thm}[Poincaré]\label{poincare}
+  Let $X$ be a non-singular $k$-variety,
+  $d\coloneqq\dim(X)$,
+  and let $\F\in\Sh(X)$ be a locally constant constructible
+  $\Lambda$-module.
+  \begin{enumerate}
+  \item There is a unique, natural isomophism,
+    called the \emph{trace isomorphism},
+    \begin{gather*}
+      \Tr_X\colon H^{2d}(X,\Lambda(d)) \xrightarrow{\cong} \Zmod{n}
+    \end{gather*}
+    such that for any closed point $P\in X$ holds
+    $\tr{\eta_P}=1_{\Zmod{n}}$.
+  \item There are canonical, natural perfect pairings of finite groups
+    \begin{gather*}
+      H_c^r(X,\F) \otimes H^{2d-r}\left(X,\F^\vee(d)\right)
+      \overset\cup\longrightarrow H_c^{2d}(X,\Lambda(d))
+      \xrightarrow[\text{trace}]{\cong} \Zmod{n}
+    \end{gather*}
+  \end{enumerate}
 \end{Thm}
+
+\begin{Cor}
+  We directly obtain the followin consequences
+  \begin{enumerate}
+  \item 
+  \end{enumerate}
+\end{Cor}
+
+
 \subsection{Gysin Maps}
 
 \section{Lefschetz Fixed-Point Formula}
