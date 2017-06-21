@@ -22,6 +22,7 @@
 \newtheorem{DefLem}[Def]{Definition/Lemma}
 \newtheorem{Prop}[Def]{Proposition}
 \newtheorem{Thm}[Def]{Theorem}
+\newtheorem*{Thm*}{Theorem}
 \newtheorem{Lem}[Def]{Lemma}
 \newtheorem{Cor}[Def]{Corollary}
 \theoremstyle{remark}
@@ -72,11 +73,11 @@
 \DeclareMathOperator{\CL}{cl} % cycle class map
 \newcommand*{\cl}[2]{{\CL_{#1}\left(#2\right)}} % cycle class map
 \newcommand*{\one}[1]{{1_{#1}}}%{H^*(#1)}}
-\newcommand*{\dual}[2]{{#1_{#2}^*}} % dual basis vector
 \let\altphi\phi
 \renewcommand*{\phi}{\varphi}
 \newcommand*{\Poincare}{{\text{Poincaré \ref{poincare}}}}
 \newcommand*{\Hc}{{H_c}} % cohomology with compact support
+\newcommand*{\dual}[1]{\check{#1}} % dual basis vector
 
 \begin{document}
 % HEAD/FOOT
@@ -100,7 +101,7 @@
 \section{Motivation}
 From topology the following theorem is known that relates the fixed
 points of a morphism (counted with multiplicity) with homology:
-\begin{Thm}[Lefschetz-Hopf]
+\begin{Thm*}[Lefschetz-Hopf]
   Let $X$ be a compact, smooth manifold and
   $\phi\colon X\to X$ a morphism. Then
   \begin{gather*}
@@ -110,19 +111,19 @@ points of a morphism (counted with multiplicity) with homology:
   where $\operatorname{Fix}(\phi)$ are the fixed points of $\phi$ and
   $\mathrm i(\phi,x)$ is the multiplicity of a fixed point $x$ of $\phi$
   in $X$.
-\end{Thm}
+\end{Thm*}
 The proof uses the Poincaré duality theorem which says
-\begin{Thm}[Poincaré]
+\begin{Thm*}[Poincaré]
   For a smooth manifold $X$ and $r\in\Z$ holds
   \begin{gather*}
     H_{c\text{,sing}}^r(X,\Z) \cong H_{\dim(X)-r}^{\text{sing}}(X,\Z)
   \end{gather*}
   where $H_{c\text{,sing}}^r(X,\Z)\coloneqq
   \dirlim_{Z\subset X \text{cpt.}}H_{Z,\text{sing}}^r(X,\Z)$
-  is cohomology with compact support for $X$.
-  Here, $H_{Z,\text{sing}}^r(X,\Z)$ is the $r$th relative
+  is cohomology with compact support for $X$,
+  with $H_{Z,\text{sing}}^r(X,\Z)$ being the $r$th relative
   $\Z$-cohomology of the pair $(X,X\setminus Z)$.
-\end{Thm}
+\end{Thm*}
 The aim of this lecture is to introduce and proof an analogue
 statement of the Lefschetz formula for schemes instead of topological
 spaces, as well as to give an overview of the necessary preliminaries.
@@ -137,12 +138,12 @@ Some convenient correspondences are
 \item \emph{morphism of varieties} instead of \emph{morphism of manifolds},
 \item \emph{étale cohomology} instead of \emph{singular homology}
   (mind that they coincide for non-singular varieties over $\C$ and
-  finite coefficient group \cite[see][Thm.~21.1]{milne}),
+  finite coefficient group \cite[see][Thm.~I.21.1]{milne}),
 \item \emph{constant sheaf with value $G$}
   as coefficients instead of an abelian group $G$
   (written $G\in\Sh(X)$ where
   $\Sh(X)$ are the sheaves of abelian groups over $X$)
-\item intersection number $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$
+\item \emph{intersection number} $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$
   (also counting fixed points of $\phi$ with multiplicity)
   instead of $\sum_{x\in\operatorname{Fix}(\phi)}\mathrm{i}(\phi,\cdot)$.
 \end{itemize}
@@ -155,6 +156,7 @@ abelian groups. However, passing to limits we can consider for $X$
   \left(\lim_{n\to\infty}H^r(X,\Zmod{l^n})\right)\otimes_{\Zl}\Ql
 \end{gather*}
 Thus the final statement of the Lefschetz fixed point formula shall be
+(see \ref{lefschetzthm}):
 \begin{Thm}[Lefschetz]\label{lefschetzthm:motivation}
   Let $k$ be an algebraically closed field, $X$ a non-singular,
   complete $k$-variety, and let $\phi\colon X\to X$ be an
@@ -186,34 +188,37 @@ We instantly get the following two applications:
 
 For the proof of \ref{lefschetzthm:motivation}
 some further nice properties of étale cohomology for
-(nice) varieties will be needed, such as:
-a Künneth isomorphism (in \autoref{kuennethiso}),
+(nice) varieties will be needed, such as
+a Künneth isomorphism (see \autoref{kuennethiso}),
 a cycle class map that gives a connection to the Chow ring and
-intersection product (in \autoref{def:cycleclassmap}),
-Poincaré duality with a trace map (in \autoref{poincare}),
-as well as pushforwards on cohomology (in \autoref{def:pushforward}).
+intersection product (see \autoref{def:cycleclassmap}),
+Poincaré duality with a trace map (see \autoref{poincare}),
+as well as pushforwards on cohomology (see \autoref{def:pushforward}).
 To establish these, one needs for étale cohomology the notion of
-cohomology with compact support (in \autoref{def:cptcohomology}),
-relative cohomology (in \autoref{def:relcoh}),
-long exact sequences of (compact) pairs (in \autoref{lesrelcoh}),
-Gysin sequences (in \autoref{gysiniso}),
+cohomology with compact support (see \autoref{def:cptcohomology}),
+relative cohomology (see \autoref{def:relcoh}),
+long exact sequences of (compact) pairs (see \autoref{lesrelcoh}),
+Gysin sequences (see \autoref{gysiniso}),
 and most of all a cup product, \idest a graded ring structure
-(in \autoref{def:cupproduct}).
+(see \autoref{def:cupproduct}).
 All of this will be introduced in the following.
 
 \section{Preliminaries on étale Cohomology}
-It will be assumed the reader knows about the definition and basic
-properties of étale cohomology. If not stated otherwise, for a
-(Zariski) scheme $X$ and a (Zariski) sheaf of modules $\F$ over $X$ we
-denote with $H^r(X,\F)$ the $r$th étale cohomology group of the étale
-sheaf $\F$ over the étale scheme of $X$
-\cite[compare][Chap.~6, Examples of Sheaves on $X_\text{ét}$]{milne}.
+It will be assumed that the reader knows about the definition and basic
+properties of étale cohomology, otherwise consult \forexample
+\cite{jannsenetale}, \cite{milne}, \cite{milnebook}.
+
+If not stated otherwise, for a (Zariski) scheme $X$ and a (Zariski)
+sheaf of modules $\F$ over $X$ we denote with $H^r(X,\F)$ the $r$th
+étale cohomology group of the étale sheaf $\F$ over the étale scheme
+of $X$
+\cite[compare][Chap.~I.6, Examples of Sheaves on $X_\text{ét}$]{milne}.
 
 Also recall that for $\F$ torsion sheaf or $X$ complete these groups
-are finite \cite[\forexample][Thm.~19.1]{milne}.
+are finite \cite[][Thm.~I.19.1]{milne}.
 
 \subsection{Étale Cohomology with compact support}
-In this section let $k$ be an algebraically closed field,
+Throughout this section let $k$ be an algebraically closed field,
 $U$ a variety over $k$,
 and $\F$ be a torsion sheaf over $U$.
 
@@ -221,13 +226,13 @@ The definition of cohomology with compact support as
 $\left(\dirlim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)\right)$
 cannot be copied from topology but has to be adjusted.
 However, we will see later (namely \autoref{def:etapoint}),
-that at least in degree 0 the following definition
+that---at least in degree 0---the following definition
 and the expression above coincide.
 
 First recall the following
 \begin{Rev}[Nagata compactification]\label{nagata}
   There always exists a complete $k$-variety $X$ and an open, dense
-  immersion $j\colon U\to X$. $j$ is also called a
+  immersion $j\colon U\to X$. Such a $j$ is also called
   \emph{compactification} of $U$.
 \end{Rev}
 \begin{Rev}[Extension by zero]\label{def:extbyzero}
@@ -268,21 +273,22 @@ First recall the following
         & X'
       \end{tikzcd}
     \end{center}
-    This then can be shown using a version of the Leray spectral
-    sequence and the proper base change theorem.
+    This can be shown using a version of the Leray spectral
+    sequence and the proper base change theorem
+    \cite[][Thm. I.18.2]{milne}.
   \end{proof}
 \end{DefLem}
 
 \begin{Rem}
   Note that this is no derived functor!
   However, since $j_!$ is exact for a compactification $j$ of $U$, we
-  still get a long exact sequence of cohomology out of a short exact
-  sequence of a short exact sequence of sheaves on $U$
+  still get a long exact sequence of cohomology for any short exact
+  sequence of sheaves on $U$
   (just use the definition and the long exact sequence of cohomology for
   $H^*(X,\cdot)$).
 \end{Rem}
 
-\subsection{Ext-Pairings, Cup Product and Künneth formula}
+\subsection{Cup Product and Künneth formula}
 Again let $k$ be an algebraically closed field throughout the
 section.
 
@@ -292,7 +298,7 @@ ring structure on the sum of the cohomology groups in all degrees
 denoted $\cup$ to which we here give an approach via pairings of
 Ext-groups. 
 However, there are concrete descriptions using Čech-cohomology
-\cite[see][Chap.~10 and Chap.~22, Cup-products]{milne}
+\cite[see][Chap.~I.10 and Chap.~I.22, Cup-products]{milne}
 or using the Künneth isomorphism defined later on (see
 \autoref{kuennethiso}, \autoref{rem:cupwithkuennethiso}).
 
@@ -324,7 +330,7 @@ or using the Künneth isomorphism defined later on (see
   \end{gather*}
   This is associative as well as graded commutative, \idest $x\cup y =
   (-1)^{rs}y\cup x$ for $x\in H^r(X,\F)$, $y\in H^s(X,\G$
-  \cite[][Rem. 1.18]{milnebook}.
+  \cite[][Rem.~V.1.18]{milnebook}.
   \begin{proof}[idea for construction]
     The cup product is the map making the following diagram commute
     where the lower row is the \nameref{yonedaproduct}
@@ -358,18 +364,17 @@ or using the Künneth isomorphism defined later on (see
 
 We can now proceed with the definition of the graded ring of
 cohomology groups by choosing appropriate coefficients.
-\begin{Def}\label{def:coefficients}\cite[compare][p.~163]{milnebook}
+\begin{Def}\label{def:coefficients}
   Let $X$ be a $k$-variety,
   $n\in\N$ such that $\Char(k)\nmid n$,
   and $r\in\Z$.
   \begin{enumerate}
-  \item We denote with $\Lambda\coloneqq\Lambda_n$ the constant sheaf of
-    $\Zmod{n}$ over $X$.
+  \item We denote with $\Lambda\coloneqq\Lambda_n$ the constant sheaf
+    with value $\Zmod{n}$ over $X$.
   \item\label{def:moduletwists}
     For a $\Zmod{n}$-module $F$ define the $r$th tensor product
     (or $r$th twist) as
     \begin{align*}
-      \SwapAboveDisplaySkip
       \F(r)\coloneqq F^{\otimes r}
       &\coloneqq \begin{cases}
         F^{\otimes r} &r>0\\
@@ -382,8 +387,8 @@ cohomology groups by choosing appropriate coefficients.
       \mu_n(R)\coloneqq\{ u\in R^\times\;|\;u^n=1_R\}
     \end{gather*}
     be the $n$th roots of unity in $R$. 
-    Note that if $R$ contains all $n$th roots of unity (\forexample
-    contains an algebraically closed field), then the choice of a
+    Note that if $R$ contains all $n$th roots of unity---\forexample
+    contains an algebraically closed field---then the choice of a
     primitive $n$th root of unity determines (non-canonical) isomorphisms
     $\mu_n(R)^{\otimes s}\cong\Zmod{n}$ for all $s\in\Z$.
   \item By choice of $n$, the following sheaf of roots of unity is a
@@ -394,7 +399,7 @@ cohomology groups by choosing appropriate coefficients.
       U\mapsto \mu_n(\Gamma(U,\mathcal O_U))
     \end{gather*}
   \item\label{def:tatetwist}
-    We can now similarly to \ref{def:moduletwists} above define the
+    We can now (similarly to \ref{def:moduletwists} above) define the
     \emph{$r$th Tate twist} of $\Lambda$ as
     \begin{align*}
       \Lambda(r) &\coloneqq \begin{cases}
@@ -425,27 +430,27 @@ cohomology groups by choosing appropriate coefficients.
   \end{enumerate}
 \end{Def}
 One may notice an analogue of Serre twists in sheaf cohomology,
-where $\mathcal O_X$-modules instead of $\Lambda$-modules are
-considered.
+where $\mathcal O_X$-~instead of $\Lambda$-modules are considered.
 
 With the coefficients defined above we can now state the ring
-structure
-as follows:
+structure as follows:
 \begin{DefLem}
   For a $k$-variety $X$, and $n\in\Z$ such that $\Char(k)\nmid n$,
   define for $r\in\Z$
   \begin{align*}
+    \SwapAboveDisplaySkip
     H^r(X) \coloneqq H^r(X,\Lambda(r))\;,\qquad
     H^*(X) \coloneqq \bigoplus_{r\in\N}H^r(X)
   \end{align*}
+  This is equipped with the following properties:
   \begin{enumerate}
   \item $H^*(X)$ together with the cup product
     $H^*(X)\otimes H^*(X)\xrightarrow{\cup} H^*(X)$
     as in \ref{def:cupproduct} is a graded commutative ring
     (follows directly from the properties of the cup product).
   \item The canonical, natural isomorphism $\Zmod{n}\cong H^0(X)$
-    makes $H^*(X)$ an $\Zmod{n}$-Algebra with unit $1_X$,
-    which is the image of $1_{\Zmod{n}}$ under the isomorphism.
+    makes $H^*(X)$ a $\Zmod{n}$-Algebra with unit $1_X$,
+    which is the image of $1_{\Zmod{n}}$ under this isomorphism.
   \item For any morphism of $k$-varieties $\phi\colon X\to Y$ the
     induced map $\phi^*\colon H^*(Y)\to H^*(X)$ is a homomorphism of
     graded rings
@@ -473,9 +478,10 @@ cohomology rings of each factor.
 
 \begin{Thm}[Künneth formula]\label{kuennethiso}
   Let $X$ and $Y$ be $k$-varieties
-  ($k$ only needs to be separably closed with $\Char(k)\nmid n$).
+  ($k$ here only needs to be separably closed), and
+  $n\in\Z$ with $\Char(k)\nmid n$.
   Further let $\F$ and $\G$ be constructible, flat $\Lambda_n$-modules
-  over $X$ resp. $Y$.
+  over $X$ respectively $Y$.
   Consider the projection maps
   $p\colon X\times_k Y\to X$ and
   $q\colon X\times_k Y\to Y$ and denote
@@ -483,7 +489,7 @@ cohomology rings of each factor.
   \begin{enumerate}
   \item   Then for any $m\in\N$ there is an exact sequence
     \begin{center}
-      \begin{tikzcd}[row sep=tiny]
+      \begin{tikzcd}[row sep=tiny, column sep=small]
         0 \rar
         &\displaystyle\bigoplus_{\mathclap{r+s=m}}H^r(X,\F)\otimes H^s(Y,\G) \rar
         &H^m(X\times_k Y,\F\boxtimes\G) \dar\\
@@ -493,8 +499,6 @@ cohomology rings of each factor.
         &0
       \end{tikzcd}
     \end{center}
-    This also holds if one exchanges étale cohomology with étale
-    cohomology with compact support.
     The second map is defined by
     \begin{center}
       \begin{tikzcd}[row sep=small]
@@ -510,6 +514,8 @@ cohomology rings of each factor.
         &\displaystyle\sum_{\mathclap{i}}p^*a_i \cup q^*b_i
       \end{tikzcd}
     \end{center}
+    This statement also holds if one exchanges étale cohomology with
+    étale cohomology with compact support.
   \item For $X$ and $Y$ complete the above map is an isomorphism. 
   \end{enumerate}
   \begin{proof}\cite[][Thm.~V.8.5 and Cor.~V.8.13]{milnebook}\end{proof}
@@ -532,50 +538,51 @@ cohomology rings of each factor.
   with $H^*(X)\otimes H^*(Y)$. For $x\in H^r(X)$, $y\in H^s(Y)$
   we then define
   \begin{gather*}
+    \SwapAboveDisplaySkip
     x\cup y \coloneqq (\Diag{X})^*(x\otimes y)
   \end{gather*}
 \end{Rem}
 
-\subsection{The Chow Ring and the Cycle Map}
+\subsection{The Chow Ring and the Cycle Class Map}
 In the statement of the Lefschetz formula the usual intersection
 product occurs. The first aim of this section will be to place the
 intersection product in a more general setting, more precisely
-identify it as the product in the so-called Chow ring. Afterwards we
+identify it with the product in the so-called Chow ring. Afterwards we
 state the connection between the cohomology and the Chow ring in form
 of a natural, graded ring homomorphism.
 
 $k$ is still considered to be an algebraically closed field,
 $n\in\Z$ an integer such that $\Char(k)\nmid n$,
-and $\Lambda=\Lambda_n$ as above.
+and $\Lambda=\Lambda_n$ as in \ref{def:coefficients} above.
 
 \begin{DefLem}
   Let $X$ be a non-singular variety.
   \begin{enumerate}
   \item A \emph{prime cycle} $Z$ of $X$ is an irreducible, closed
     subvariety.
-  \item Denote the set of all prime cycles of codimension
-    $r\in\N$ in $X$ by $C_p^r(X)$.
-    For $r\in\N$ we write
+  \item Denote the set of all prime cycles in $X$ of codimension
+    $r\in\N$ by $C_p^r(X)$ and define
     \begin{gather*}
       C^r(X) \coloneqq \bigoplus_{C_p^r(X)}\Z
     \end{gather*}
-    for the free abelian group generated by prime cycles of
+    to be the free abelian group generated by prime cycles of
     codimension $r$.
     Note: $C^1(X)=\Div(X)$.
   \item The intersection
     $Y\cap Y'\coloneqq (\Diag{X})^*(Y\times_X Y')$ of two cycles 
     $Y\in C^r(X)$, $Y'\in C^s(X)$ is said to be
     \begin{description}[font=\normalfont\itshape]
-    \item[proper] if for every irreducible component $Z$ of
-      $Y\cap Y'$ holds
+    \item[proper,] if for every irreducible component $Z$ of the
+      intersection $Y\cap Y'$ holds
       $\codim(Y)+\codim(Y')=\codim(Z)$,
-    \item[transversal in a point] if the tangent spaces of
+    \item[transversal in a point,] if the tangent spaces of
       $Y$ and $Y'$ span the tangent space of $Z$ in this point,
-    \item[transversal] if it is so in every point.
+    \item[transversal,] if it is so in every point.
     \end{description}
     If $Y$ and $Y'$ intersect properly and transversally we define
-    the intersection product of $Y$, $Y'$ as
+    the intersection product of $Y$ and $Y'$ as
     \begin{gather*}
+      \SwapAboveDisplaySkip
       \intProd{Y}{Y'} \coloneqq
       \sum_{\mathclap{
           \substack{Z\subset Y\cap Y'\\
@@ -586,11 +593,13 @@ and $\Lambda=\Lambda_n$ as above.
     \begin{gather*}
       \CH^r(X) \coloneqq C^r(X)/\sim
     \end{gather*}
-    where $\sim$ denotes rational equivalence.
-  \item This equivalence  fulfills:
+    where $\sim$ denotes rational equivalence
+    \cite[see][p.\,426]{hartshorne}.
+  \item This equivalence fulfills \emph{Chow's moving lemma}
+    \cite[][p.\,427]{hartshorne}:
     For any $Y\in C^r(X)$, $Y'\in C^s(X)$ there are
     $\widetilde Y\in C^r(X)$, $\widetilde Y'\in C^s(X)$ intersecting
-    properly and transversally with $Y\sim\widetilde Y$ and
+    properly and transversally, such that $Y\sim\widetilde Y$ and
     $Y'\sim\widetilde Y'$.
     Thus the intersection product is well defined on equivalence
     classes of the Chow groups and we obtain the \emph{Chow ring}
@@ -616,14 +625,15 @@ of cohomology groups involving relative cohomology.
   \end{align*}
   For $r\in\Z$ we call the $r$th right derivative of
   $\Gamma_Z(X,\argreplacement)$ the $r$th relative étale cohomology of the pair
-  $(X,Z)$ and write
+  $(X,Z)$, and write
   $H_Z^r(X,\F)\coloneqq\left(\mathrm R^r\Gamma_Z(X,\argreplacement)\right)(\F)$.
 \end{Def}
-One may compare this with relative singular cohomology $H_Z^r(X,F)=H^r(X,U,F)$
+This is an analogue to relative singular cohomology
+$H_{Z,\text{sing}}^r(X,F)=H_{\text{sing}}^r(X,U,F)$
 of a pair $(X,U=X\setminus Z)$ of topological spaces with coefficients
 in an abelian group $F$. Here one obtains for any pair of topological
 spaces a long exact sequence involving relative cohomology.
-Even though relative topology is limited to special pairs of
+Even though relative étale cohomology is limited to special pairs of
 varieties, it also yields this desirable property:
 \begin{Prop}\label{lesrelcoh}
   For a $k$-variety $X$ and a closed subvariety $Z$ of $X$,
@@ -659,13 +669,13 @@ vector bundle in topology.
     H_Z^{r+2c}\left(X,\F(c)\right)
   \end{gather*}    
 \end{Thm}
-Mind that we will now need non-singularity in the following to apply
+Mind that we will need non-singularity whenever we want to apply
 this isomorphism.
 \begin{Def}
   For $X,Z,r,\F$ as in \ref{gysiniso} one can replace
   $H^{r}(Z,\F)$ in the cohomology sequence of the pair
   $(X,Z)$ (see \ref{lesrelcoh}) using the Gysin isomorphism, and thus
-  obtains a long exact sequence, called (as in topology) the
+  obtains a long exact sequence, called---as in topology---the
   \emph{Gysin sequence} of the pair $(X,Z)$:
   \begin{gather*}
     \dotsc
@@ -688,9 +698,10 @@ this isomorphism.
 
 \begin{DefLem}\label{def:cycleclassmap}
   Let $X$ be a non-singular $k$-variety.
-  Then there exists a unique, natural (in both space and coefficients)
+  Then there exists a unique, natural (both in $X$ and coefficients)
   homomorphism of graded rings doubling degree
   \begin{gather*}
+    \SwapAboveDisplaySkip
     \CL_X\colon \CH^*(X)\rightarrow H^{2*}(X)\coloneqq
     \bigoplus_{c\in\N} H^{2c}(X,\Lambda(c))
   \end{gather*}
@@ -698,6 +709,7 @@ this isomorphism.
   \begin{enumerate}
   \item In degree~1 it is the map
     \begin{gather*}
+      \SwapAboveDisplaySkip
       \CL_X^1\colon
       \CH^1(X)\cong \Pic(X)\cong H^1(X,\mathds G_m)
       \xrightarrow{\footnotesize\substack{\text{Kummer}\\\text{sequence}}}
@@ -725,12 +737,12 @@ this isomorphism.
   \end{gather*}
   since $X$ is the only irreducible
   subvariety of codimension~$0$ and the Gysin map is an isomorphism in
-  this case (as $H^0(X\setminus X,\Lambda)=0$ in the long exact Gysin
+  this case ($H^0(X\setminus X,\Lambda)=0$ in the Gysin
   sequence).
 \end{Ex}
 
 \section{Poincaré Duality}
-In this whole section $k$ will be an algebraically closed field,
+Again throughout this section $k$ will be an algebraically closed field,
 $n\in\Z$ an integer such that $\Char(k)\nmid n$,
 and $\Lambda=\Lambda_n$ as in \ref{def:coefficients}.
 
@@ -753,14 +765,15 @@ However, we can still recover the following relation:
     \dirlim_{\mathclap{Z\subset X \text{cpt.}}} H_Z^0(X,\F) 
     \xrightarrow{\cong} H_c^0(X,\F)\;.
   \end{gather*}
-  For a closed point $P\in X$ we define $\eta_P$ to be the image of
+  For a closed point $P\in X$, $\eta_P$ denotes the image of
   $1_\Zmod{n}$ under the Gysin map of the pair $(X,\{P\})$
   \begin{gather*}
+    \SwapAboveDisplaySkip
     \Zmod{n}
     \cong H^0(P,\Lambda)
     \xrightarrow[\text{\ref{gysiniso}}]{\cong}
     H_{\{P\}}^{2d}(X,\Lambda(d))
-    \longrightarrow H_c^{2d}(X,\Lambda(d))
+    \longrightarrow H_c^{2d}(X,\Lambda(d))\;.
   \end{gather*}
 \end{DefLem}
 
@@ -775,18 +788,35 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
     called the \emph{trace isomorphism},
     \begin{gather*}
       \Tr_X\colon H_c^{2d}(X,\Lambda(d)) \xrightarrow{\cong} \Zmod{n}
+      \;,
     \end{gather*}
     such that for any closed point $P\in X$ holds
     $\tr{\eta_P}=1_{\Zmod{n}}$.
-  \item There are canonical, natural perfect pairings of finite groups
+  \item There are canonical, natural, perfect pairings of finite groups
     \begin{gather*}
       H_c^r(X,\F) \otimes H^{2d-r}\left(X,\F^\vee(d)\right)
       \overset\cup\longrightarrow H_c^{2d}(X,\Lambda(d))
       \xrightarrow[\Tr_X]{\cong} \Zmod{n}
+      \;.
     \end{gather*}
   \end{enumerate}
 \end{Thm}
 
+\begin{Def}
+  Poincaré duality makes it possible to define a generalised
+  intersection number for a non-singular $k$-variety $X$
+  of dimension $d$ and $r,s\in\N$ with $r+s=d$:
+  \begin{gather*}
+    \intNum{\,\cdot\,}\colon
+    \CH^r(X)\otimes\CH^s(X)
+    \xrightarrow{\intProd{-}{-}} \CH^{d}(X)
+    \xrightarrow{\CL_X} H^2d(X,\Lambda(d))
+    \xrightarrow[\Tr_X]{\cong} \Zmod{n}
+  \end{gather*}
+  Passing to the limit and tensoring with $\Ql$ we get
+  $\intNum{\,\cdot\,}\colon\CH^r(X)\otimes\CH^s(X)\to\Ql(d)\cong\Ql$
+  (see \ref{changeofcoefficients} for further explanation).
+\end{Def}
 
 
 % \begin{Cor}
@@ -799,7 +829,8 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
 \begin{Def}\label{def:pushforward}
   Let $X$ and $Y$ be smooth $k$-varieties, $r\in\Z$,
   $d\coloneqq\dim(X)$, $d'\coloneqq\dim(Y)$, and $c\coloneqq d'-d$.
-  For $\pi\colon X\to Y$ proper we obtain a morphism
+  For $\pi\colon X\to Y$ proper we obtain a pushforward morphism on
+  cohomology
   \begin{gather*}
     \pi_*\colon
     H^r(X,\Lambda)
@@ -809,11 +840,12 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
     \left(H_c^{2d-r}(Y,\Lambda(d))\right)^\vee
     \underset{\ref{poincare}}\cong
     H^{r+2c}(Y,\Lambda(c))
+    \;.
   \end{gather*}
 \end{Def}
 
 \begin{Rem}\label{proppushforward}
-  Let $X,Y,d,d',c,r,\pi$ be as above in \ref{def:pushforward},
+  Let $X,Y,d,d',c,r,\pi$ be as in \ref{def:pushforward} above,
   and further let
   $x\in H^r(X,\Lambda)\cong \left(H^{2d-r}(Y,\Lambda(c))\right)^\vee$,
   $y\in H_c^{2d-r}(X,\Lambda)\cong
@@ -821,13 +853,14 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
   Then $\pi_*$ fulfills the following properties:
   \begin{enumerate}[label=(P\arabic*)]
   \item\label{pushforward:altdef}
-    $\pi_*$ is uniquely determined by the following commutativity
+    $\pi_*$ is uniquely determined by the identity
     \begin{gather*}
       \Tr_{Y}\left(\pi_*(x)\cup y\right) =
       \Tr_{X}\left(x\cup\pi^*(y)\right)
+      \;.
     \end{gather*}
   \item\label{pushforward:composition}
-    Taking Pushforward commutes with composition, \idest for two
+    Taking pushforward commutes with composition, \idest for two
     proper morphisms of smooth $k$-varieties
     $\pi_1\colon X\to Y$, $\pi_2\colon Y\to Z$ holds
     \begin{gather*}
@@ -862,7 +895,7 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
       \pi_*(\one{X})=\cl{Y}{\pi_*(X)}\in H^{2c}(Y,\Lambda(c))\;.
     \end{gather*}
   \item\label{pushforward:trace}
-    If both $X$ and $Y$ are complete one obtains for
+    If both $X$ and $Y$ are complete, one obtains for
     $x\in H^{2d}(X,\Lambda(d))$ the equality
     \begin{gather*}
       \Tr_Y(\pi_*(x))
@@ -899,11 +932,12 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
 \section{Lefschetz Fixed-Point Formula}
 
 \begin{Thm}[Lefschetz fixed-point formula]\label{lefschetzthm}
-  Let $X$ be a non-singular, complete variety over an algebraicly
+  Let $X$ be a non-singular, complete variety over an algebraically
   closed field $k$.
   Let further $\phi\colon X\to X$ be a regular Endomorphism.
   Then
   \begin{gather*}
+    \SwapAboveDisplaySkip
     \intNum{\intProd{\Graph{\phi}}{\Diag{X}}}
     = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X,\Ql)}
   \end{gather*}
@@ -916,17 +950,17 @@ Note that $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$ is the number of
 fixed points of $\phi$, hence the name of this formula.
 
 
-\begin{Rem}
-  At first take a look at the coefficients.
-  All the maps and identities we have seen so far are natural and
-  hence compatible with  taking a direct limit, as well as with
-  tensoring with $\Ql$.
+\begin{Rem}\label{changeofcoefficients}
+  We first neet to take a look at the coefficients.
+  All the maps and identities we have seen so far are natural,
+  and hence compatible with taking a direct limit,
+  as well as with tensoring with $\Ql$.
   The needed maps and isomorphism are namely
-  cup product,
-  trace isomorphism,
+  the cup product,
+  the trace isomorphism,
   Poincaré duality,
-  cycle class map,
-  pushforward and pullback on cohomology, as well as
+  the cycle class map,
+  pushforwards and pullbacks on cohomology, as well as
   the Künneth isomorphism.
   Using  \ref{cohomologyoftwists} we get with
   $\Ql(r)\coloneqq\left(\lim_{n\to\infty}\Zmod{l^n}(r)\right)\otimes\Ql$
@@ -940,15 +974,15 @@ fixed points of $\phi$, hence the name of this formula.
   \end{align*}
   As $\Ql(s)$ is a 1-dimensional $\Ql$-vectorspace and $\phi^*$ only
   acts through $H^r(X,\Ql)$, we will work with the $\Ql$-vector spaces
-  $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$. This will then
-  already imply the theorem
-  (\idest $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$)
+  $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$. This then
+  already implies the theorem
+  since $\trace{\phi^*}{H^r(X)}=\trace{\phi^*}{H^r(X,\Ql)}$
   \cite[][Rem.~I.25.5]{milne}.
 \end{Rem}
 
 \begin{Rev}
   Let $V$ be a finite dimensional $K$-vector space, $(e_i)_{i=1}^n$ a basis,
-  and $(\check e_i)_{i=1}^n$ the corresponding dual basis.
+  and $(\dual e_i)_{i=1}^n$ the corresponding dual basis.
   Denote the evaluation by
   \begin{align*}
     \cup\colon V\otimes V^* \to K,\quad
@@ -956,11 +990,10 @@ fixed points of $\phi$, hence the name of this formula.
   \end{align*}
   Then the trace of some $f\in\End{V}$ is defined as
   \begin{gather*}
-    \trace{f}{V} \coloneqq \sum_{i=1}^n f(e_i)\cup \check e_i
+    \trace{f}{V} \coloneqq \sum_{i=1}^n f(e_i)\cup \dual e_i
   \end{gather*}
 \end{Rev}
 
-\begin{proof}[proof of \autoref{lefschetzthm}]~
   %\begin{enumerate}[label={Step \arabic*.}]
     %% STEP % [25.3]
     First we need the following identity:
@@ -968,6 +1001,7 @@ fixed points of $\phi$, hence the name of this formula.
       For a regular morphism $\phi\colon X\to Y$ of complete varieties
       and $y\in H^*(Y)$ holds
       \begin{gather*}
+        \SwapAboveDisplaySkip
         p_*\left(\cl{X\times Y}{\Graph{\phi}} \cup q^*(y)\right)
         = \phi^*(y)           
       \end{gather*}
@@ -975,8 +1009,9 @@ fixed points of $\phi$, hence the name of this formula.
         Since $Y$ is separated, $\Graph{\phi}\colon X\to X\times_k Y$
         is a closed immersion, hence proper, and we can apply the
         \ref{pushforward:projectionformula}.
-        Furthermore, by functoriality of the cycle class map we have
+        Furthermore, by naturality of the cycle class map we have
         \begin{gather}
+          \SwapAboveDisplaySkip
           \cl{X\times_k Y}{\Graph{\phi}} \coloneqq
           \cl{X\times_k Y}{(\Graph{\phi})_*(X)} =
           (\Graph{\phi})_*(\cl{X}{X}) \overset{\ref{ex:clxx}}{=} % REF MISSING          
@@ -1004,8 +1039,8 @@ fixed points of $\phi$, hence the name of this formula.
     Now we can explicitly describe
     $\cl{X\times_k X}{\Graph{\phi}}$:
     \begin{Lem}\label{clofgraph}
-      Let $X$ be a complete and non-singular variety of dimension $d$
-      and $\altphi\in\End{X}$ regular.
+      Let $X$ be a complete, non-singular variety of dimension $d$
+      and $\altphi$ a regular Endomorphism of $X$.
       Write $e^{2d}\in H^{2d}(X)$ for the canonical generator
       with $\tr{e^{2d}}=1\in\Ql$.
       Furthermore, let $(b_k)_k$ be a basis of $H^*(X)$ as
@@ -1014,8 +1049,9 @@ fixed points of $\phi$, hence the name of this formula.
       (exists by \nameref{poincare}).
       Then
       \begin{gather*}
+        \SwapAboveDisplaySkip
         \cl{X\times_k X}{\Graph{\phi}} =
-        \sum_{k}^{2d} \phi^*(b_k)\otimes  f_k
+        \sum_{k} \phi^*(b_k)\otimes  f_k
       \end{gather*}
       \begin{proof}
         By the \nameref{kuennethiso} % REF MISSING
@@ -1030,6 +1066,7 @@ fixed points of $\phi$, hence the name of this formula.
         \end{gather}
         Explicitly
         \begin{align*}
+          \SwapAboveDisplaySkip
           a_j
           = p_*(a_j\otimes e^{2d})
           &= p_*\Big(
@@ -1044,39 +1081,42 @@ fixed points of $\phi$, hence the name of this formula.
     \end{Lem}
 
     %% STEP
+    \begin{proof}[proof of \autoref{lefschetzthm}]~
     For all $r\in\{0,\dotsc,2d\}$ let $(e_i^r)_{i}$ be a basis of
     $H^r(X)$ as $\Ql$-vector space. A union of these obviously yields
     a basis of $H^*(X)$ as $\Ql$-vector space, whose Poincaré dual
     basis will be the union of degreewise dual bases
-    $(\check e_i^{2d-r})_{i}\subset H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
+    $(\dual e_i^{2d-r})_{i}\subset H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
     \idest
-    $e^r_i\cup \check e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$.
+    $e^r_i\cup \dual e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$.
     Applying Lemma~\ref{clofgraph} with bases $(e_i^r)_{i,r}$ and
-    $(\check e_i^{2d-r})_{i,r}$ to $\phi$ and $\id$ yields
+    $(\dual e_i^{2d-r})_{i,r}$ to $\phi^*$ and $\id_X^*$ yields
     \begin{align*}
       \cl{X\times_k X}{\Graph{\phi}}
-      &= \sum_{i,r} \phi^*(e_i^r)\otimes \check e_i^{2d-r}\\
+      &= \sum_{i,r} \phi^*(e_i^r)\otimes \dual e_i^{2d-r}\\
       \cl{X\times_k X}{\Diag{X}}
-      &= \sum_{i,r} e_i^r\otimes \check e_i^{2d-r} =
-        \sum_{i,r} (-1)^{r\cdot (2d-r)}\check e_i^{2d-r}\otimes e_i^{r} =
-        \sum_{i,r} (-1)^{r}\check e_i^{2d-r}\otimes e_i^r\\
+      &= \sum_{i,r} e_i^r\otimes \dual e_i^{2d-r} =
+        \sum_{i,r} (-1)^{r\cdot (2d-r)}\dual e_i^{2d-r}\otimes e_i^{r} =
+        \sum_{i,r} (-1)^{r}\dual e_i^{2d-r}\otimes e_i^r\\
       \cl{X\times_k X}{\intProd{\Graph{\phi}}{\Diag{X}}}
       &= \cl{X\times_k X}{\Diag{X}} \cup \cl{X\times_k X}{\Graph{\phi}}\\
       &= \sum_{i,r,j,s} (-1)^{r}
-        \left(\phi^*(e_i^r)\cup \check e_j^{2d-s}\right)
-        \otimes \left(\check e_i^{2d-r}\cup e_j^s\right)\\
+        \left(\phi^*(e_i^r)\cup \dual e_j^{2d-s}\right)
+        \otimes \left(\dual e_i^{2d-r}\cup e_j^s\right)\\
       &= \sum_{i,r} (-1)^{r}
-        \left(\phi^*(e_i^r)\cup \check e_i^{2d-r}\right)
+        \left(\phi^*(e_i^r)\cup \dual e_i^{2d-r}\right)
         \otimes e^{2d}\\
       &\overset{\mathllap{\Poincare}}=
         \sum_{r} (-1)^r \trace{\phi^*}{H^r(X)} e^{2d} \otimes e^{2d}
     \end{align*}
     Altogether, using
     \begin{align*}
+      \SwapAboveDisplaySkip
       \tr{e^{2d} \otimes e^{2d}}
       = \tr{\Diag{X}_*(e^{2d})}
       \overset{\ref{pushforward:trace}}= \tr{e^{2d}}
       \overset{\text{Def.}}= 1\in\Ql
+      \;,
     \end{align*}
     we get our final result:
     \begin{gather*}
