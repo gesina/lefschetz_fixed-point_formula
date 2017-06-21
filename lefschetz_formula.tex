@@ -358,67 +358,93 @@ or using the Künneth isomorphism defined later on (see
 
 We can now proceed with the definition of the graded ring of
 cohomology groups by choosing appropriate coefficients.
-\begin{Def}\label{def:coefficients}
+\begin{Def}\label{def:coefficients}\cite[compare][p.~163]{milnebook}
   Let $X$ be a $k$-variety,
   $n\in\N$ such that $\Char(k)\nmid n$,
   and $r\in\Z$.
   \begin{enumerate}
-  \item Let $\Lambda\coloneqq\Lambda_n$ be the constant sheaf of
+  \item We denote with $\Lambda\coloneqq\Lambda_n$ the constant sheaf of
     $\Zmod{n}$ over $X$.
-  \item For an integral domain $R$ let
-    $\mu_n(R)\coloneqq\{ u\in R^\times\;|\;u^n=1_R\}$ be the $n$th
-    roots of unity in $R$. Define
+  \item\label{def:moduletwists}
+    For a $\Zmod{n}$-module $F$ define the $r$th tensor product
+    (or $r$th twist) as
     \begin{align*}
       \SwapAboveDisplaySkip
-      \mu_n(R)^{\otimes r} &\coloneqq \begin{cases}
-        \mu_n(R)^{\otimes r} &r>0\\
+      \F(r)\coloneqq F^{\otimes r}
+      &\coloneqq \begin{cases}
+        F^{\otimes r} &r>0\\
         \Zmod{n} &r=0\\
-        \Hom_{\Zmod{n}}(\mu_n(R)^{\otimes (-r)},\Zmod{n}) &r<0
+        \Hom_{\Zmod{n}}(F^{\otimes (-r)},\Zmod{n}) &r<0
       \end{cases}
     \end{align*}
-    Note that if $R$ contains all $n$th roots of unity, then a
-    primitive $n$th root of unity determines isomorphisms
-    $\mu_n(R)^{\otimes s}\cong\Zmod{n}$ for all $s\in\Z$.
-  \item We define the $r$th twist of $\Lambda$ as
+  \item\label{def:rootsofunity} For an integral domain $R$ let
     \begin{gather*}
-      \Lambda(r) \coloneqq \text{ sheafification of }\quad
-      U\mapsto \mu_n(\Gamma(U,\mathcal O_U)^{\otimes r}
+      \mu_n(R)\coloneqq\{ u\in R^\times\;|\;u^n=1_R\}
     \end{gather*}
-    As explained above, for $k$ algebraically closed $\Lambda(r)$ is
-    (non-canonically) isomorphic to $\Lambda$.
-    However, choosing a primitive $n$th root of unity determines
-    isomorphisms $\Lambda\cong\Lambda(s)$ for all $s\in\Z$ and
-    $\Lambda(r)^\vee\coloneqq \Hom_\Lambda(\Lambda(r),\Lambda)
-    \cong\Lambda(-r)$.
-  \item For an $n$-torsion sheaf over $X$ (\idest a $\Lambda$-module)
-    set
+    be the $n$th roots of unity in $R$. 
+    Note that if $R$ contains all $n$th roots of unity (\forexample
+    contains an algebraically closed field), then the choice of a
+    primitive $n$th root of unity determines (non-canonical) isomorphisms
+    $\mu_n(R)^{\otimes s}\cong\Zmod{n}$ for all $s\in\Z$.
+  \item By choice of $n$, the following sheaf of roots of unity is a
+    well-defined, locally free sheaf of $\Lambda$-modules of rank~1
+    over $X$
+    \begin{gather*}
+      \overline\mu_n(X) \coloneqq \text{ sheafification of }\quad
+      U\mapsto \mu_n(\Gamma(U,\mathcal O_U))
+    \end{gather*}
+  \item\label{def:tatetwist}
+    We can now similarly to \ref{def:moduletwists} above define the
+    \emph{$r$th Tate twist} of $\Lambda$ as
     \begin{align*}
-      \F(r) &\coloneqq \F\otimes_\Lambda \Lambda(r)\\
-      \F(r)^\vee &\coloneqq \Hom_\Lambda(\F,\Lambda(r))\cong \F(-r)
+      \Lambda(r) &\coloneqq \begin{cases}
+        \overline\mu_n(X)^{\otimes r} &r>0\\
+        \Lambda &r=0\\
+        \Hom_{\Lambda}(\overline\mu_n(X)^{\otimes (-r)},\Lambda) &r<0
+      \end{cases}
     \end{align*}
+    Obviously we have
+    $\Lambda(r)^\vee\coloneqq\Hom_\Lambda(\Lambda(r),\Lambda)\cong\Lambda(-r)$.
+    Furthermore, for $k$ algebraically closed $\Lambda(r)$ is
+    (non-canonically) isomorphic to $\Lambda$ by the explanation in
+    \ref{def:rootsofunity} above. 
+    However, choosing a primitive $n$th root of unity determines
+    isomorphisms $\Lambda\cong\Lambda(s)$ for all $s\in\Z$.
+  \item For any $n$-torsion sheaf over $X$ (\idest a $\Lambda$-module)
+    we define
+    \begin{flalign*}
+      \SwapAboveDisplaySkip
+      &\text{the $r$th Tate twist of $\F$ as $\Lambda$-module as}
+      &\F(r) &\coloneqq \F\otimes_\Lambda \Lambda(r)\;,
+      \\
+      &\text{the dual sheaf of $\F$ as $\Lambda$-module as}
+      &\F(r)^\vee &\coloneqq \Hom_\Lambda(\F,\Lambda(r))\cong
+      \F(-r)\;.
+      \qquad
+    \end{flalign*}
   \end{enumerate}
 \end{Def}
-
-One may notice an analogue of twisting sheaves in sheaf cohomology,
-where $\mathcal O_X$-modules are considered.
+One may notice an analogue of Serre twists in sheaf cohomology,
+where $\mathcal O_X$-modules instead of $\Lambda$-modules are
+considered.
 
 With the coefficients defined above we can now state the ring
 structure
 as follows:
 \begin{DefLem}
-  For a $k$-variety $X$, and $n\in\Z$ such that $\Char(k)\nmid n$
+  For a $k$-variety $X$, and $n\in\Z$ such that $\Char(k)\nmid n$,
   define for $r\in\Z$
   \begin{align*}
     H^r(X) \coloneqq H^r(X,\Lambda(r))\;,\qquad
     H^*(X) \coloneqq \bigoplus_{r\in\N}H^r(X)
   \end{align*}
   \begin{enumerate}
-  \item $H^*(X)$ together with the cup product as in \ref{def:cupproduct}
+  \item $H^*(X)$ together with the cup product
     $H^*(X)\otimes H^*(X)\xrightarrow{\cup} H^*(X)$
-    is a graded commutative ring
+    as in \ref{def:cupproduct} is a graded commutative ring
     (follows directly from the properties of the cup product).
-  \item The canonical isomorphism $\Zmod{n}\cong H^0(X)$ makes
-    $H^*(X)$ an $\Zmod{n}$-Algebra with unit $1_X$,
+  \item The canonical, natural isomorphism $\Zmod{n}\cong H^0(X)$
+    makes $H^*(X)$ an $\Zmod{n}$-Algebra with unit $1_X$,
     which is the image of $1_{\Zmod{n}}$ under the isomorphism.
   \item For any morphism of $k$-varieties $\phi\colon X\to Y$ the
     induced map $\phi^*\colon H^*(Y)\to H^*(X)$ is a homomorphism of
@@ -427,9 +453,23 @@ as follows:
   \end{enumerate}
 \end{DefLem}
 
-A first heavily simplifying observation is the Künneth formula which
-produces the cohomology ring of a product out of the cohomology rings
-of each factor.
+\begin{Rem}\label{cohomologyoftwists}
+  Consider $X,n,r$ as in \ref{def:coefficients} above, and $k$ an
+  algebraically closed field. Then for any $\Lambda$-module $\F$
+  (\idest $n$-torsion sheaf over $X$) there is by the comment in
+  \ref{def:coefficients}\ref{def:tatetwist} a non-canonical
+  isomorphism $\F\cong\F(r)$. However, on cohomology this becomes a
+  canonical isomorphism
+  \cite[see][p.\,66 and p.\,163]{milnebook}
+  \begin{gather*}
+    H^r(X,\F)\otimes \Zmod{n}(r) \cong H^r(X,\F(r))
+  \end{gather*}
+\end{Rem}
+
+
+A first, heavily simplifying observation is the existence of a Künneth
+formula which correlates the cohomology ring of a product with the
+cohomology rings of each factor.
 
 \begin{Thm}[Künneth formula]\label{kuennethiso}
   Let $X$ and $Y$ be $k$-varieties
@@ -472,7 +512,7 @@ of each factor.
     \end{center}
   \item For $X$ and $Y$ complete the above map is an isomorphism. 
   \end{enumerate}
-  \begin{proof}Skipped.\end{proof}
+  \begin{proof}\cite[][Thm.~V.8.5 and Cor.~V.8.13]{milnebook}\end{proof}
 \end{Thm}
 
 \begin{Rem}
@@ -569,9 +609,9 @@ of cohomology groups involving relative cohomology.
 
 \begin{Def}\label{def:relcoh}
   Let $X$ be a $k$-variety and $Z\subset X$ a closed subvariety.
-  We define a functor
+  We define the relative global section functor as
   \begin{align*}
-    \Gamma_Z(X,\argreplacement) \colon \Sh(X) &\rightarrow \text{AbGrp}\\
+    \Gamma_Z(X,\argreplacement) \colon \Sh(X) &\longrightarrow \text{AbGrp}\\
     \F &\longmapsto \ker\left(\Gamma(X,\F)\to \Gamma(X\setminus S,\F)\right)
   \end{align*}
   For $r\in\Z$ we call the $r$th right derivative of
@@ -583,11 +623,12 @@ One may compare this with relative singular cohomology $H_Z^r(X,F)=H^r(X,U,F)$
 of a pair $(X,U=X\setminus Z)$ of topological spaces with coefficients
 in an abelian group $F$. Here one obtains for any pair of topological
 spaces a long exact sequence involving relative cohomology.
-Even though we are limited to special pairs of varieties for relative
-étale topology, it also yields this desirable property:
+Even though relative topology is limited to special pairs of
+varieties, it also yields this desirable property:
 \begin{Prop}\label{lesrelcoh}
   For a $k$-variety $X$ and a closed subvariety $Z$ of $X$,
-  $\F\in\Sh(X)$ there is a long exact sequence of cohomology
+  $\F\in\Sh(X)$ there is a long exact sequence of cohomology of the
+  pair $(X,Z)$
   \begin{gather*}
     \dotsc
     \to H_Z^r(X,\F)
@@ -597,8 +638,10 @@ Even though we are limited to special pairs of varieties for relative
     \to \dotsc
   \end{gather*}
 \end{Prop}
-There hold even more analogues to the Eilenberg-Steenrod Axioms,
-\forexample excision and additivity \cite[compare][Chap.~9]{milne}.
+\begin{Rem}
+  There hold even more analogues to the Eilenberg-Steenrod Axioms,
+  \forexample excision and additivity \cite[][Chap.~9]{milne}.
+\end{Rem}
 
 We will further need the following correspondence between compact and
 relative cohomology, which yields---inserted into the long exact
@@ -614,12 +657,25 @@ vector bundle in topology.
     H^{r}\left(Z,\F\right)
     \xrightarrow{\cong}
     H_Z^{r+2c}\left(X,\F(c)\right)
-  \end{gather*}
+  \end{gather*}    
 \end{Thm}
-Mind that we will need non-singularity in the following to apply this
-isomorphism.
+Mind that we will now need non-singularity in the following to apply
+this isomorphism.
 \begin{Def}
-  For $X,Z,r,\F$ as in \ref{gysiniso} we call the composition
+  For $X,Z,r,\F$ as in \ref{gysiniso} one can replace
+  $H^{r}(Z,\F)$ in the cohomology sequence of the pair
+  $(X,Z)$ (see \ref{lesrelcoh}) using the Gysin isomorphism, and thus
+  obtains a long exact sequence, called (as in topology) the
+  \emph{Gysin sequence} of the pair $(X,Z)$:
+  \begin{gather*}
+    \dotsc
+    \to H_Z^{r-2c}\left(X,\F(-c)\right)
+    \to H^r(X,\F)
+    \to H^r(X\setminus Z,\F)
+    \to H_Z^{r+1}(X,\F)
+    \to \dotsc    
+  \end{gather*}
+  We call the composition
   \begin{gather*}
     H^r(Z,\Lambda)
     \xrightarrow[\text{\ref{gysiniso}}]{\cong}
@@ -815,7 +871,8 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
       = \Tr_X(x)
       \;.
     \end{gather*}
-    Mind that $\pi^*(\one{Y})=\one{X}$. %% MISSING
+    Mind that $\pi^*(\one{Y})=\one{X}$
+    \cite[compare][Rem.~V.11.6.]{milnebook} %% MISSING
   \item
     For $X$ and $Y$ complete furthermore holds
     \begin{gather}
@@ -860,41 +917,34 @@ fixed points of $\phi$, hence the name of this formula.
 
 
 \begin{Rem}
-  In the following we will work with
-  $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$, where
-  \begin{gather*}
-    H^r(X) = H^r(X,\Ql(r)) \coloneqq
-    \left(\lim_{n\to\infty} H^r(X,\M_{l^n}(r))\right) \otimes \Ql
-  \end{gather*}
-  All the maps and identities we have seen so far are compatible with
-  taking the limit and tensoring with $\Ql$, namely
+  At first take a look at the coefficients.
+  All the maps and identities we have seen so far are natural and
+  hence compatible with  taking a direct limit, as well as with
+  tensoring with $\Ql$.
+  The needed maps and isomorphism are namely
   cup product,
   trace isomorphism,
   Poincaré duality,
-  cycle class map and hence
-  pushforward and pullback on cohomology as well as
+  cycle class map,
+  pushforward and pullback on cohomology, as well as
   the Künneth isomorphism.
-  Thus $H^*(X)$ together with the induced cup product is a graded ring
-  fulfilling these properties.
-  For $X$, $\phi$ as above we will deduce the formula
-  \begin{gather*}
-    \intNum{\intProd{\Graph{\phi}}{\Diag{X}}}
-    = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X)}
-  \end{gather*}
-  This already implies the theorem
-  (\idest $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$),
-  because:
-  Since $k$ is algebraicly closed---especially it contains all
-  roots of unity---we can choose for $r=1$ (hence inductively all
-  $r\in\N$) and $n\in\N$ an isomorphism
-  \begin{gather*}
-    \M_{l^n}(r)\coloneqq\mu_{l^n}^{\otimes_k r} \cong \Zmod{(l^n)}
-  \end{gather*}
-  So $H^r(X)\cong H^r(X,\Ql)$ as $\Ql$-vector spaces.
-  One now has to observe, that the traces of $\phi^*$ commute with
-  this isomorphism.
-  % TODO!!
-\end{Rem} 
+  Using  \ref{cohomologyoftwists} we get with
+  $\Ql(r)\coloneqq\left(\lim_{n\to\infty}\Zmod{l^n}(r)\right)\otimes\Ql$
+  for $r\in\N,s\in\Z$ the identity
+  \begin{align*}
+    H^r(X,\Ql(s)) &=
+    \left(\lim_{n\to\infty} H^r(X,\M_{l^n}(s))\right) \otimes \Ql\\
+    &\cong
+    \left(\lim_{n\to\infty} H^r(X,\M_{l^n})\otimes \Zmod{l^n}(s)\right)\otimes\Ql
+    \eqqcolon H^r(X,\Ql)\otimes\Ql(s)
+  \end{align*}
+  As $\Ql(s)$ is a 1-dimensional $\Ql$-vectorspace and $\phi^*$ only
+  acts through $H^r(X,\Ql)$, we will work with the $\Ql$-vector spaces
+  $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$. This will then
+  already imply the theorem
+  (\idest $\trace{\phi^*}{H^r(X)})=\trace{\phi^*}{H^r(X,\Ql)}$)
+  \cite[][Rem.~I.25.5]{milne}.
+\end{Rem}
 
 \begin{Rev}
   Let $V$ be a finite dimensional $K$-vector space, $(e_i)_{i=1}^n$ a basis,
