@@ -27,6 +27,7 @@
 \theoremstyle{remark}
 \newtheorem{Rem}[Def]{Remark}
 \newtheorem{Rev}[Def]{Reminder}
+\newtheorem{Ex}[Def]{Example}
 
 % SHORTENINGS
 \newcommand*{\N}{\mathds{N}}
@@ -186,18 +187,18 @@ We instantly get the following two applications:
 For the proof of \ref{lefschetzthm:motivation}
 some further nice properties of étale cohomology for
 (nice) varieties will be needed, such as:
-a Künneth isomorphism (\autoref{kuennethiso}),
+a Künneth isomorphism (in \autoref{kuennethiso}),
 a cycle class map that gives a connection to the Chow ring and
-intersection product (\autoref{cycleclassmap}),
-Poincaré duality with a trace map (\autoref{poincare}),
-as well as pushforwards on cohomology (\autoref{gysinmaps}).
+intersection product (in \autoref{def:cycleclassmap}),
+Poincaré duality with a trace map (in \autoref{poincare}),
+as well as pushforwards on cohomology (in \autoref{def:pushforward}).
 To establish these, one needs for étale cohomology the notion of
-cohomology with compact support (\autoref{def:cptcohomology}),
-relative cohomology (\autoref{relcoh}),
-long exact sequences of (compact) pairs (\autoref{LES}),
-Gysin sequences (\autoref{gysinsequ}),
+cohomology with compact support (in \autoref{def:cptcohomology}),
+relative cohomology (in \autoref{def:relcoh}),
+long exact sequences of (compact) pairs (in \autoref{lesrelcoh}),
+Gysin sequences (in \autoref{gysiniso}),
 and most of all a cup product, \idest a graded ring structure
-(\autoref{cupproduct}).
+(in \autoref{def:cupproduct}).
 All of this will be introduced in the following.
 
 \section{Preliminaries on étale Cohomology}
@@ -485,7 +486,7 @@ of each factor.
   $\Lambda_{l^{n+1}}(r)\to\Lambda_{l^n}(r)$.
 \end{Rem}
 
-\begin{Rem}
+\begin{Rem}\label{rem:cupwithkuennethiso}
   The existence of the Künneth isomorphism can also be used for
   a definition of the cup product by identifying $H^*(X\times_k Y)$
   with $H^*(X)\otimes H^*(Y)$. For $x\in H^r(X)$, $y\in H^s(Y)$
@@ -606,24 +607,36 @@ vector bundle in topology.
 \begin{Thm}[Gysin isomorphism]\label{gysiniso}
   Let $X$ be a non-singular $k$-variety,
   $Z\subset X$ a closed, non-singular subvariety of codimension $c$,
+  $r\in\Z$,
   and $\F\in\Sh(X)$ a locally constant $\Zmod{n}$-module.
   Then there is a canonical and natural isomorphism
   \begin{gather*}
-    H^{r-2c}\left(Z,\F(-c)\right)
+    H^{r}\left(Z,\F\right)
     \xrightarrow{\cong}
-    H_Z^r\left(X,\F\right)
+    H_Z^{r+2c}\left(X,\F(c)\right)
   \end{gather*}
 \end{Thm}
 Mind that we will need non-singularity in the following to apply this
 isomorphism.
+\begin{Def}
+  For $X,Z,r,\F$ as in \ref{gysiniso} we call the composition
+  \begin{gather*}
+    H^r(Z,\Lambda)
+    \xrightarrow[\text{\ref{gysiniso}}]{\cong}
+    H_Z^{r+2c}(X,\Lambda(r))
+    \xrightarrow[\text{\ref{lesrelcoh}}]{\text{l.e.s.}}
+    H^{r+2c}(X,\Lambda(r))
+  \end{gather*}
+  the \emph{Gysin map} of the pair $(X,Z)$.
+\end{Def}
 
-\begin{DefLem}\label{cycleclassmap}
+\begin{DefLem}\label{def:cycleclassmap}
   Let $X$ be a non-singular $k$-variety.
   Then there exists a unique, natural (in both space and coefficients)
   homomorphism of graded rings doubling degree
   \begin{gather*}
     \CL_X\colon \CH^*(X)\rightarrow H^{2*}(X)\coloneqq
-    \bigoplus_{r\in\N} H^{2r}(X,\Lambda(r))
+    \bigoplus_{c\in\N} H^{2c}(X,\Lambda(c))
   \end{gather*}
   that fulfills
   \begin{enumerate}
@@ -636,18 +649,29 @@ isomorphism.
       \overset{\text{Def.}}{\underset{\ref{def:coefficients}}{=}}
       H^2(X,\Lambda(1))
     \end{gather*}
-  \item For $Z\in\CH^r(X)$ non-singular, $\CL_X^r(Z)$ is the image of
-    $1_{\Zmod{n}}$ under the map
+  \item For $Z\in\CH^c(X)$ non-singular, $\CL_X^c(Z)$ is the image of
+    $1_{\Zmod{n}}$ under the Gysin map
     \begin{gather*}
       \Zmod{n} \cong H^0(Z,\Lambda)
       \xrightarrow[\text{\ref{gysiniso}}]{\cong}
-      H_Z^{2r}(X,\Lambda(r))
+      H_Z^{2c}(X,\Lambda(r))
       \xrightarrow[\text{\ref{lesrelcoh}}]{\text{l.e.s.}}
-      H^{2r}(X,\Lambda(r))
+      H^{2c}(X,\Lambda(r))
     \end{gather*}
   \end{enumerate}
 \end{DefLem}
 
+\begin{Ex}\label{ex:clxx}
+  As an important case note that for a non-singular variety $X$
+  by definition
+  \begin{gather*}
+    \CL_{X}^0(X)=\one{X}
+  \end{gather*}
+  since $X$ is the only irreducible
+  subvariety of codimension~$0$ and the Gysin map is an isomorphism in
+  this case (as $H^0(X\setminus X,\Lambda)=0$ in the long exact Gysin
+  sequence).
+\end{Ex}
 
 \section{Poincaré Duality}
 In this whole section $k$ will be an algebraically closed field,
@@ -674,7 +698,7 @@ However, we can still recover the following relation:
     \xrightarrow{\cong} H_c^0(X,\F)\;.
   \end{gather*}
   For a closed point $P\in X$ we define $\eta_P$ to be the image of
-  $1_\Zmod{n}$ under the map
+  $1_\Zmod{n}$ under the Gysin map of the pair $(X,\{P\})$
   \begin{gather*}
     \Zmod{n}
     \cong H^0(P,\Lambda)
@@ -694,7 +718,7 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
   \item There is a unique, natural isomophism,
     called the \emph{trace isomorphism},
     \begin{gather*}
-      \Tr_X\colon H^{2d}(X,\Lambda(d)) \xrightarrow{\cong} \Zmod{n}
+      \Tr_X\colon H_c^{2d}(X,\Lambda(d)) \xrightarrow{\cong} \Zmod{n}
     \end{gather*}
     such that for any closed point $P\in X$ holds
     $\tr{\eta_P}=1_{\Zmod{n}}$.
@@ -702,20 +726,118 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
     \begin{gather*}
       H_c^r(X,\F) \otimes H^{2d-r}\left(X,\F^\vee(d)\right)
       \overset\cup\longrightarrow H_c^{2d}(X,\Lambda(d))
-      \xrightarrow[\text{trace}]{\cong} \Zmod{n}
+      \xrightarrow[\Tr_X]{\cong} \Zmod{n}
     \end{gather*}
   \end{enumerate}
 \end{Thm}
 
-\begin{Cor}
-  We directly obtain the followin consequences
-  \begin{enumerate}
-  \item 
+
+
+% \begin{Cor}
+%   We directly obtain the followin consequences
+%   \begin{enumerate}
+%   \item 
+%   \end{enumerate}
+% \end{Cor}
+
+\begin{Def}\label{def:pushforward}
+  Let $X$ and $Y$ be smooth $k$-varieties, $r\in\Z$,
+  $d\coloneqq\dim(X)$, $d'\coloneqq\dim(Y)$, and $c\coloneqq d'-d$.
+  For $\pi\colon X\to Y$ proper we obtain a morphism
+  \begin{gather*}
+    \pi_*\colon
+    H^r(X,\Lambda)
+    \underset{\ref{poincare}}\cong
+    \left(H_c^{2d-r}(X,\Lambda(d))\right)^\vee
+    \xrightarrow{(\pi^*)^\vee}
+    \left(H_c^{2d-r}(Y,\Lambda(d))\right)^\vee
+    \underset{\ref{poincare}}\cong
+    H^{r+2c}(Y,\Lambda(c))
+  \end{gather*}
+\end{Def}
+
+\begin{Rem}\label{proppushforward}
+  Let $X,Y,d,d',c,r,\pi$ be as above in \ref{def:pushforward},
+  and further let
+  $x\in H^r(X,\Lambda)\cong \left(H^{2d-r}(Y,\Lambda(c))\right)^\vee$,
+  $y\in H_c^{2d-r}(X,\Lambda)\cong
+  \left(H^{r}(X,\Lambda(c))\right)^\vee$.
+  Then $\pi_*$ fulfills the following properties:
+  \begin{enumerate}[label=(P\arabic*)]
+  \item\label{pushforward:altdef}
+    $\pi_*$ is uniquely determined by the following commutativity
+    \begin{gather*}
+      \Tr_{Y}\left(\pi_*(x)\cup y\right) =
+      \Tr_{X}\left(x\cup\pi^*(y)\right)
+    \end{gather*}
+  \item\label{pushforward:composition}
+    Taking Pushforward commutes with composition, \idest for two
+    proper morphisms of smooth $k$-varieties
+    $\pi_1\colon X\to Y$, $\pi_2\colon Y\to Z$ holds
+    \begin{gather*}
+      (\pi_2\circ \pi_1)_* = (\pi_2)_*\circ(\pi_1)_*\;.
+    \end{gather*}
+    This is easily verified by checking \ref{pushforward:altdef}:
+    \begin{align*}
+      \Tr_X((\pi_2)_*(\pi_1)_*(x) \cup y)
+      &\overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+        \Tr_X((\pi_1)_*(x) \cup (\pi_2)^*(y))
+      \overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+        \Tr_X(x \cup (\pi_1)^*(\pi_2)^*(y))\\
+      &=\Tr_X(x \cup (\pi_2\circ\pi_1)_*(y))
+      \overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+        \Tr_X((\pi_2\circ\pi_1)_*(x)\cup y)
+    \end{align*}
+  \item\label{P3}
+    If $\pi$ is a closed immersion, then $\pi_*$ is the Gysin map of
+    the pair $(X,Y)$. Especially, in degree~0 we have
+    \begin{align*}
+      \pi_*\colon
+      \Zmod{n}\cong H^{0}(X,\Lambda)
+      \xrightarrow[\ref{gysiniso}]{\cong}
+      H_X^{2c}(Y,\Lambda(c))
+      \xrightarrow[\ref{lesrelcoh}]{\text{l.e.s.}}
+      H^{2c}(Y,\Lambda(c))
+      \;.
+    \end{align*}
+    Since $X\cong\pi_*X\in\CH^{c}(Y)$, we get by definition of
+    the cycle class map in \ref{def:cycleclassmap}
+    \begin{gather*}
+      \pi_*(\one{X})=\cl{Y}{\pi_*(X)}\in H^{2c}(Y,\Lambda(c))\;.
+    \end{gather*}
+  \item\label{pushforward:trace}
+    If both $X$ and $Y$ are complete one obtains for
+    $x\in H^{2d}(X,\Lambda(d))$ the equality
+    \begin{gather*}
+      \Tr_Y(\pi_*(x))
+      = \Tr_Y(\pi_*(x)\cup \one{Y})
+      \overset{\ref{pushforward:altdef}}= \Tr_X(x\cup\pi^*(\one{Y}))
+      = \Tr_X(x)
+      \;.
+    \end{gather*}
+    Mind that $\pi^*(\one{Y})=\one{X}$. %% MISSING
+  \item
+    For $X$ and $Y$ complete furthermore holds
+    \begin{gather}
+      \tag{Projection Formula}\label{pushforward:projectionformula}
+      \pi_*(x\cup \pi^*(y)) = \pi_*(x)\cup y
+    \end{gather}
+    where this time $x\in H^r(X,\Lambda)$ and $y\in H^r(Y,\Lambda)$
+    for arbitrary $r,s\in\Z$. This is again easily shown by checking
+    \ref{pushforward:altdef}:
+    \begin{align*}
+      \Tr_X\big((\pi_*(x)\cup y) \cup z\big)
+      &\overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+      \Tr_X\big(\pi_*(x)\cup (y \cup z)\big)
+      \overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+      \Tr_X\big( x\cup \pi^*(y\cup z)\big)\\
+      &\overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+      \Tr_X\big( (x\cup \pi^*(y)) \cup \pi^*(z) \big)
+      \overset{\mathclap{\text{\ref{pushforward:altdef}}}}=
+      \Tr_X\big( \pi_*(x\cup \pi^*(y)) \cup z\big)
+    \end{align*}
   \end{enumerate}
-\end{Cor}
-
-
-\subsection{Gysin Maps}
+\end{Rem}
 
 \section{Lefschetz Fixed-Point Formula}
 
@@ -733,11 +855,10 @@ Now we can state an analogue to Poincaré duality for étale cohomology:
   The sum is finite due to the vanishing
   of cohomology in degree greater than $2\dim(X)$. 
 \end{Thm}
-Note that $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$ is exactly the number of
+Note that $\intNum{\intProd{\Graph{\phi}}{\Diag{X}}}$ is the number of
 fixed points of $\phi$, hence the name of this formula.
 
 
-\subsection{Proof}
 \begin{Rem}
   In the following we will work with
   $H^*(X)\coloneqq\sum_{r\in\N} H^r(X, \Ql(r))$, where
@@ -783,15 +904,15 @@ fixed points of $\phi$, hence the name of this formula.
     \cup\colon V\otimes V^* \to K,\quad
     v\otimes \omega \mapsto v\cup\omega\coloneqq \omega(v)
   \end{align*}
-  Then the trace of some $f\in\End(V)$ is defined as
+  Then the trace of some $f\in\End{V}$ is defined as
   \begin{gather*}
     \trace{f}{V} \coloneqq \sum_{i=1}^n f(e_i)\cup \check e_i
   \end{gather*}
 \end{Rev}
 
 \begin{proof}[proof of \autoref{lefschetzthm}]~
-  \begin{enumerate}[label={Step \arabic*.}]
-  \item %[25.3]
+  %\begin{enumerate}[label={Step \arabic*.}]
+    %% STEP % [25.3]
     First we need the following identity:
     \begin{Lem}\label{step1}
       For a regular morphism $\phi\colon X\to Y$ of complete varieties
@@ -802,8 +923,8 @@ fixed points of $\phi$, hence the name of this formula.
       \end{gather*}
       \begin{proof}
         Since $Y$ is separated, $\Graph{\phi}\colon X\to X\times_k Y$
-        is a closed immersion, hence proper, and we can apply the 
-        \nameref{projectionformula}. % REF MISSING
+        is a closed immersion, hence proper, and we can apply the
+        \ref{pushforward:projectionformula}.
         Furthermore, by functoriality of the cycle class map we have
         \begin{gather}
           \cl{X\times_k Y}{\Graph{\phi}} \coloneqq
@@ -817,9 +938,9 @@ fixed points of $\phi$, hence the name of this formula.
           &=  p_*\left(
             (\Graph{\phi})_*\left(\one{X}\right) \cup q^*(y)
             \right)\\
-          &\overset{\mathllap{\nameref{pushforward:projectionformula}}}{=}
+          &\overset{\mathllap{\text{\ref{pushforward:projectionformula}}}}{=}
             p_*(\Graph{\phi})_*\left( \one{X} \cup (\Graph{\phi})^*q^*(y) \right)\\
-          &\overset{\mathllap{\eqref{pushforward:composition}}}=
+          &\overset{\mathllap{\ref{pushforward:composition}}}=
             (p\circ\Graph{\phi})_* \left(
             \one{X} \cup (q\circ\Graph{\phi})^*(y) \right)\\
           &\overset{\mathllap{\text{Def. $\Graph\phi$}}}=
@@ -828,24 +949,26 @@ fixed points of $\phi$, hence the name of this formula.
         \end{align*}
       \end{proof}
     \end{Lem}
-  \item Now we can explicitly describe
+
+    %% STEP
+    Now we can explicitly describe
     $\cl{X\times_k X}{\Graph{\phi}}$:
-    \begin{Lem}
+    \begin{Lem}\label{clofgraph}
       Let $X$ be a complete and non-singular variety of dimension $d$
-      and $\altphi\in\End(X)$ regular.
+      and $\altphi\in\End{X}$ regular.
       Write $e^{2d}\in H^{2d}(X)$ for the canonical generator
       with $\tr{e^{2d}}=1\in\Ql$.
       Furthermore, let $(b_k)_k$ be a basis of $H^*(X)$ as
       $\Ql$-vector space and $(f_k)_k$ be the dual Basis with respect
-      to the cup product, \idest $b_k\cup f_l=\delta_{kl}e^{2d}$.
-      % ?? HOW IS THIS CONSTRUCTED? / WHY DOES THIS EXIST?
+      to the cup product, \idest $b_k\cup f_l=\delta_{kl}e^{2d}$
+      (exists by \nameref{poincare}).
       Then
       \begin{gather*}
         \cl{X\times_k X}{\Graph{\phi}} =
         \sum_{k}^{2d} \phi^*(b_k)\otimes  f_k
       \end{gather*}
       \begin{proof}
-        By the \nameref{künnethiso} % REF MISSING
+        By the \nameref{kuennethiso} % REF MISSING
         $H^*(X\otimes X) \cong H^*(X)\otimes_{\Ql}H^*(X)$ is a
         $H^*(X)$-module with basis
         $(\one{X}\otimes f_k)_{k}$.
@@ -869,23 +992,23 @@ fixed points of $\phi$, hence the name of this formula.
         \end{align*}
       \end{proof}
     \end{Lem}
-  \item
-    For all $r\in\{0,\dotsc,2d\}$ let
-    \begin{itemize}
-    \item $(e_i^r)_{i}$ be a basis of $H^r(X)$ as $\Ql$-vector space,
-    \item $(\check e_i^{2d-r})_{i}$ be the dual basis of $H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
-      \idest $e^r_i\cup \check e_j^{2d-r}= \delta_{ij}e^{2d}$.
-    \end{itemize}
-    Note that then $e^r_i\cup \check e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$,
-    % ?? WHY?
-    \idest they fulfill the properties of the Lemma
-    and we get for $\phi$ and $\id$
+
+    %% STEP
+    For all $r\in\{0,\dotsc,2d\}$ let $(e_i^r)_{i}$ be a basis of
+    $H^r(X)$ as $\Ql$-vector space. A union of these obviously yields
+    a basis of $H^*(X)$ as $\Ql$-vector space, whose Poincaré dual
+    basis will be the union of degreewise dual bases
+    $(\check e_i^{2d-r})_{i}\subset H^{2d-r}(X)\cong (H^{r}(X))^\vee$,
+    \idest
+    $e^r_i\cup \check e_j^{2d-s}=\delta_{ij}\delta_{rs}e^{2d}$.
+    Applying Lemma~\ref{clofgraph} with bases $(e_i^r)_{i,r}$ and
+    $(\check e_i^{2d-r})_{i,r}$ to $\phi$ and $\id$ yields
     \begin{align*}
       \cl{X\times_k X}{\Graph{\phi}}
       &= \sum_{i,r} \phi^*(e_i^r)\otimes \check e_i^{2d-r}\\
       \cl{X\times_k X}{\Diag{X}}
       &= \sum_{i,r} e_i^r\otimes \check e_i^{2d-r} =
-        \sum_{i,r} (-1)^{r\cdot (2d-r)}\check e_i^r\otimes e_i^{2d-r} =
+        \sum_{i,r} (-1)^{r\cdot (2d-r)}\check e_i^{2d-r}\otimes e_i^{r} =
         \sum_{i,r} (-1)^{r}\check e_i^{2d-r}\otimes e_i^r\\
       \cl{X\times_k X}{\intProd{\Graph{\phi}}{\Diag{X}}}
       &= \cl{X\times_k X}{\Diag{X}} \cup \cl{X\times_k X}{\Graph{\phi}}\\
@@ -901,14 +1024,8 @@ fixed points of $\phi$, hence the name of this formula.
     Altogether, using
     \begin{align*}
       \tr{e^{2d} \otimes e^{2d}}
-      % TODO!! ??
-      % &= \tr{p^*(e^{2d})\cup q^*(e^{2d})}\\
-      % &= \tr{p^*(e^{2d})}\cdot\tr{ q^*(e^{2d})}\\
-      % &\overset{\eqref{pushforward:trace}=
-      % \tr{e^{2d}}\cdot\tr{e^{2d}}\\
-      % \overset{\text{Def.}}= 1\cdot 1
       = \tr{\Diag{X}_*(e^{2d})}
-      \overset{\eqref{pushforward:trace}}= \tr{e^{2d}}
+      \overset{\ref{pushforward:trace}}= \tr{e^{2d}}
       \overset{\text{Def.}}= 1\in\Ql
     \end{align*}
     we get our final result:
@@ -917,10 +1034,8 @@ fixed points of $\phi$, hence the name of this formula.
       \tr{\cl{X\times_kX}{\intProd{\Graph\phi}{\Diag X}}}
       = \sum_{r\in\N} (-1)^r \trace{\phi^*}{H^r(X,\Ql)}
     \end{gather*}
-  \end{enumerate}
+%  \end{enumerate}
 \end{proof}
-
-\subsection{Other Cases}
 
 \nocite{*}
 \printbibliography
