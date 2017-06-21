@@ -1,6 +1,7 @@
-\documentclass[english]{scrartcl}
+\documentclass[english,headsepline=0.25pt]{scrartcl}
 \usepackage{fontspec}
 \usepackage{babel}
+\usepackage{csquotes}
 \usepackage[backend=biber]{biblatex}
 \bibliography{lefschetz_formula.bib}
 \usepackage{scrlayer-scrpage}
@@ -13,7 +14,8 @@
 \usepackage{hyperref}
 \hypersetup{
   pdfauthor=Gesina Schwalbe,
-  pdftitle=Lefschetz fixed-point formula
+  pdftitle=Lefschetz fixed-point formula,
+  colorlinks=true, linkcolor=blue, citecolor=cyan, urlcolor=blue
 }
 
 % THEOREMS
@@ -93,8 +95,15 @@
   Deligne's proof of the Weil Conjecture%\\by Federico Binda, Prof. Dr. Moritz Kerz
 }
 % \subtitle{Lecture Notes}
-\author{Gesina Schwalbe}
-% \date{}
+\author{Gesina Schwalbe\\
+  \normalsize
+  Supervisors:\\\normalsize
+  \href{https://fedebinda.wordpress.com}{Dr.\,Federico Binda}, 
+  \href{http://www.mathematik.uni-regensburg.de/kerz/}{Prof.\,Dr.\,Moritz Kerz}
+}
+\date{\normalsize\today\\
+  University of Regensburg\\
+}
 \maketitle
 \tableofcontents
 
@@ -189,18 +198,18 @@ We instantly get the following two applications:
 For the proof of \ref{lefschetzthm:motivation}
 some further nice properties of étale cohomology for
 (nice) varieties will be needed, such as
-a Künneth isomorphism (see \autoref{kuennethiso}),
+a Künneth isomorphism (see \ref{kuennethiso}),
 a cycle class map that gives a connection to the Chow ring and
-intersection product (see \autoref{def:cycleclassmap}),
-Poincaré duality with a trace map (see \autoref{poincare}),
-as well as pushforwards on cohomology (see \autoref{def:pushforward}).
+intersection product (see \ref{def:cycleclassmap}),
+Poincaré duality with a trace map (see \ref{poincare}),
+as well as pushforwards on cohomology (see \ref{def:pushforward}).
 To establish these, one needs for étale cohomology the notion of
-cohomology with compact support (see \autoref{def:cptcohomology}),
-relative cohomology (see \autoref{def:relcoh}),
-long exact sequences of (compact) pairs (see \autoref{lesrelcoh}),
-Gysin sequences (see \autoref{gysiniso}),
+cohomology with compact support (see \ref{def:cptcohomology}),
+relative cohomology (see \ref{def:relcoh}),
+long exact sequences of (compact) pairs (see \ref{lesrelcoh}),
+Gysin sequences (see \ref{gysiniso}),
 and most of all a cup product, \idest a graded ring structure
-(see \autoref{def:cupproduct}).
+(see \ref{def:cupproduct}).
 All of this will be introduced in the following.
 
 \section{Preliminaries on étale Cohomology}
@@ -213,7 +222,6 @@ sheaf of modules $\F$ over $X$ we denote with $H^r(X,\F)$ the $r$th
 étale cohomology group of the étale sheaf $\F$ over the étale scheme
 of $X$
 \cite[compare][Chap.~I.6, Examples of Sheaves on $X_\text{ét}$]{milne}.
-
 Also recall that for $\F$ torsion sheaf or $X$ complete these groups
 are finite \cite[][Thm.~I.19.1]{milne}.
 
@@ -225,7 +233,7 @@ and $\F$ be a torsion sheaf over $U$.
 The definition of cohomology with compact support as
 $\left(\dirlim_{Z\subset X \text{cpt.}}H_Z^r(X,\Z)\right)$
 cannot be copied from topology but has to be adjusted.
-However, we will see later (namely \autoref{def:etapoint}),
+However, we will see later (namely \ref{def:etapoint}),
 that---at least in degree 0---the following definition
 and the expression above coincide.
 
@@ -300,7 +308,7 @@ Ext-groups.
 However, there are concrete descriptions using Čech-cohomology
 \cite[see][Chap.~I.10 and Chap.~I.22, Cup-products]{milne}
 or using the Künneth isomorphism defined later on (see
-\autoref{kuennethiso}, \autoref{rem:cupwithkuennethiso}).
+\ref{kuennethiso}, \ref{rem:cupwithkuennethiso}).
 
 \begin{Rem}[Yoneda product]\label{yonedaproduct}
   For an abelian category $\mathcal{A}$ with enough injectives and
@@ -712,7 +720,7 @@ this isomorphism.
       \SwapAboveDisplaySkip
       \CL_X^1\colon
       \CH^1(X)\cong \Pic(X)\cong H^1(X,\mathds G_m)
-      \xrightarrow{\footnotesize\substack{\text{Kummer}\\\text{sequence}}}
+      \xrightarrow{\small \substack{\text{Kummer}\\\text{sequence}}}
       H^2(X,\mu_n)
       \overset{\text{Def.}}{\underset{\ref{def:coefficients}}{=}}
       H^2(X,\Lambda(1))
@@ -1081,7 +1089,7 @@ fixed points of $\phi$, hence the name of this formula.
     \end{Lem}
 
     %% STEP
-    \begin{proof}[proof of \autoref{lefschetzthm}]~
+    \begin{proof}[proof of \ref{lefschetzthm}]~
     For all $r\in\{0,\dotsc,2d\}$ let $(e_i^r)_{i}$ be a basis of
     $H^r(X)$ as $\Ql$-vector space. A union of these obviously yields
     a basis of $H^*(X)$ as $\Ql$-vector space, whose Poincaré dual
