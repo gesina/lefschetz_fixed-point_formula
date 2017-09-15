@@ -222,7 +222,7 @@ sheaf of modules $\F$ over $X$ we denote with $H^r(X,\F)$ the $r$th
 étale cohomology group of the étale sheaf $\F$ over the étale scheme
 of $X$
 \cite[compare][Chap.~I.6, Examples of Sheaves on $X_\text{ét}$]{milne}.
-Also recall that for $\F$ torsion sheaf or $X$ complete these groups
+Also recall that for $\F$ torsion sheaf and $X$ complete these groups
 are finite \cite[][Thm.~I.19.1]{milne}.
 
 \subsection{Étale Cohomology with compact support}
@@ -408,7 +408,7 @@ cohomology groups by choosing appropriate coefficients.
     \end{gather*}
   \item\label{def:tatetwist}
     We can now (similarly to \ref{def:moduletwists} above) define the
-    \emph{$r$th Tate twist} of $\Lambda$ as
+    \emph{$r$th Tate twist} of the sheaf of modules $\Lambda$ as
     \begin{align*}
       \Lambda(r) &\coloneqq \begin{cases}
         \overline\mu_n(X)^{\otimes r} &r>0\\
@@ -416,7 +416,8 @@ cohomology groups by choosing appropriate coefficients.
         \Hom_{\Lambda}(\overline\mu_n(X)^{\otimes (-r)},\Lambda) &r<0
       \end{cases}
     \end{align*}
-    Obviously we have
+    Mind, that we are considering homomorphisms of sheaves.
+    Obviously, we have
     $\Lambda(r)^\vee\coloneqq\Hom_\Lambda(\Lambda(r),\Lambda)\cong\Lambda(-r)$.
     Furthermore, for $k$ algebraically closed $\Lambda(r)$ is
     (non-canonically) isomorphic to $\Lambda$ by the explanation in
@@ -499,7 +500,7 @@ cohomology rings of each factor.
     \begin{center}
       \begin{tikzcd}[row sep=tiny, column sep=small]
         0 \rar
-        &\displaystyle\bigoplus_{\mathclap{r+s=m}}H^r(X,\F)\otimes H^s(Y,\G) \rar
+        &\displaystyle\bigoplus_{\mathclap{r+s=m}}H^r(X,\F)\otimes H^s(Y,\G) \arrow[r, "k"]
         &H^m(X\times_k Y,\F\boxtimes\G) \dar\\
         &&\displaystyle\bigoplus_{\mathclap{r+s=m+1}}\Tor_1^{\Zmod{n}}\left(
           H^r(X,\F), H^s(Y,\G)
@@ -507,7 +508,7 @@ cohomology rings of each factor.
         &0
       \end{tikzcd}
     \end{center}
-    The second map is defined by
+    The Künneth-map $k$ is defined by
     \begin{center}
       \begin{tikzcd}[row sep=small]
         \displaystyle\bigoplus_{\mathclap{r+s=m}}
@@ -524,7 +525,7 @@ cohomology rings of each factor.
     \end{center}
     This statement also holds if one exchanges étale cohomology with
     étale cohomology with compact support.
-  \item For $X$ and $Y$ complete the above map is an isomorphism. 
+  \item For $X$ and $Y$ complete the map $k$ is an isomorphism. 
   \end{enumerate}
   \begin{proof}\cite[][Thm.~V.8.5 and Cor.~V.8.13]{milnebook}\end{proof}
 \end{Thm}
@@ -587,7 +588,7 @@ and $\Lambda=\Lambda_n$ as in \ref{def:coefficients} above.
       $Y$ and $Y'$ span the tangent space of $Z$ in this point,
     \item[transversal,] if it is so in every point.
     \end{description}
-    If $Y$ and $Y'$ intersect properly and transversally we define
+    If $Y$ and $Y'$ intersect properly we define
     the intersection product of $Y$ and $Y'$ as
     \begin{gather*}
       \SwapAboveDisplaySkip
@@ -607,8 +608,7 @@ and $\Lambda=\Lambda_n$ as in \ref{def:coefficients} above.
     \cite[][p.\,427]{hartshorne}:
     For any $Y\in C^r(X)$, $Y'\in C^s(X)$ there are
     $\widetilde Y\in C^r(X)$, $\widetilde Y'\in C^s(X)$ intersecting
-    properly and transversally, such that $Y\sim\widetilde Y$ and
-    $Y'\sim\widetilde Y'$.
+    properly, such that $Y\sim\widetilde Y$ and $Y'\sim\widetilde Y'$.
     Thus the intersection product is well defined on equivalence
     classes of the Chow groups and we obtain the \emph{Chow ring}
     \begin{gather*}
